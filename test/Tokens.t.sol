@@ -117,4 +117,26 @@ contract CounterTest is Test {
         vm.prank(_user);
         _erc20.transfer(_deployer, amountToTransfer / 2);
     }
+
+    function test_transfer_limits() public {
+        uint256 amountToTransfer = _erc20.TRANSFER_LIMIT();
+
+        vm.prank(_deployer);
+        _erc721.mint(_user);
+
+        for (uint256 i = 0; i < 3; i++) {
+            vm.prank(_deployer);
+            _erc20.transfer(_user, amountToTransfer);
+
+            vm.prank(_deployer);
+            vm.expectRevert(ERC20Token.TransferLimitExceeded.selector);
+            _erc20.transfer(_user, amountToTransfer);
+
+            vm.warp(block.timestamp + 6 minutes);
+        }
+
+        uint256 balanceAfter = _erc20.balanceOf(_user);
+
+        assertEq(balanceAfter, amountToTransfer * 3, "Expect have amountToTransfer * 3 tokens");
+    }
 }
