@@ -119,7 +119,7 @@ contract CounterTest is Test {
     }
 
     function test_transfer_limits() public {
-        uint256 amountToTransfer = _erc20.TRANSFER_LIMIT();
+        uint256 amountToTransfer = _erc20.transferLimit();
 
         vm.prank(_deployer);
         _erc721.mint(_user);
