@@ -9,6 +9,8 @@ demo-contracts/out/
 
 # Docs
 docs/
+*/obj
+*/bin
 
 # Dotenv file
 .env
