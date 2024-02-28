@@ -6,10 +6,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>SendmeDemo</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Nethereum.Web3" Version="4.19.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
