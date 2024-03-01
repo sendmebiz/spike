@@ -7,4 +7,5 @@ public class Configuration
     public Wallet Issuer { get; set; } = new();
     public Wallet Alice { get; set; } = new();
     public Wallet Bob { get; set; } = new();
+    public Settings Settings { get; set; } = new();
 }
