@@ -13,4 +13,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Radzen.Blazor" Version="4.25.9" />
+      <PackageReference Include="Refit" Version="7.0.0" />
+    </ItemGroup>
+
 </Project>

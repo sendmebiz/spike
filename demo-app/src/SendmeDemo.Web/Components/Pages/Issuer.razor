@@ -1,0 +1,62 @@
+@page "/issuer"
+@using SendmeDemo.Web.Model
+@using SendmeDemo.Web.Utils
+@using SendmeDemo.Web.Clients
+@rendermode InteractiveServer
+<h3>Issuer</h3>
+
+@inject ICBDCClient _cbdcClient
+
+@if (_state != PageState.Loading)
+{
+    <div class="alert alert-danger" role="alert" hidden="@(_state != PageState.Error)" style="margin-top: 5px;">
+        @_errorMessage
+    </div>
+    <div>
+        <span>Total Supply: </span>
+        <b>@totalSupply</b>
+    </div>
+}
+
+@code {
+    private PageState _state = PageState.Loading;
+    private string _errorMessage;
+    private int totalSupply;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        
+        string error = await SafeExecution.ExecuteSafeAsync(async () =>
+        {
+            totalSupply = await _cbdcClient.GetTotalSupplyAsync();
+        });
+
+        if (error != null)
+        {
+            _errorMessage = error;
+            _state = PageState.Error;
+        }
+        else
+        {
+            _state = PageState.View;
+        }
+
+        _state = PageState.View;
+    }
+
+    private IReadOnlyList<PropertyData> Wallets => new[] { new PropertyData("Alice", "Alice")};
+
+    private class PropertyData
+    {
+        public PropertyData(string name, object value)
+        {
+            Name = name;
+            Value = value;
+        }
+
+        public string Name { get; }
+
+        public object Value { get; }
+    }
+
+}

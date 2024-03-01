@@ -92,7 +92,7 @@ public static class Erc20Endpoints
         .WithTags("CBDC")
         .WithOpenApi();
 
-        app.MapGet("/cbdc/balance", async (string address) =>
+        app.MapGet("/cbdc/balance/{address}", async (string address) =>
             {
                 string wallet = address switch
                 {
