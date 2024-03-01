@@ -27,6 +27,8 @@ app.UseHttpsRedirection();
 
 app.InitErc20Endpoints(configs);
 app.InitErc721Endpoints(configs);
+app.InitSettingsEndpoints(configs);
+app.InitUserEndpoints(configs);
 
 
 app.Run();

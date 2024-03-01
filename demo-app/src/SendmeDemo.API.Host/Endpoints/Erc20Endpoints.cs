@@ -62,18 +62,27 @@ public static class Erc20Endpoints
             .WithOpenApi();
 
 
-        app.MapPost("/cbdc/transfer", async (string to, int value) =>
+        app.MapPost("/cbdc/transfer", async (string from, string to, int value) =>
             {
+                Wallet fromWallet = from switch
+                {
+                    Participants.ALICE => configs.Alice,
+                    Participants.BOB => configs.Bob,
+                    Participants.ISSUER => configs.Issuer,
+                    _ => configs.Issuer 
+                }; 
+                
                 string toWallet = to switch
                 {
                     Participants.ALICE => configs.Alice.PublicKey,
                     Participants.BOB => configs.Bob.PublicKey,
+                    Participants.ISSUER => configs.Issuer.PublicKey,
                     _ => to
                 };
 
                 var erc20Service = app.Services.GetService<IERC20>();
                 var result = await erc20Service.TransferAsync(
-                    configs.Issuer,
+                    fromWallet,
                     toWallet, value);
                 Console.WriteLine(result);
 
