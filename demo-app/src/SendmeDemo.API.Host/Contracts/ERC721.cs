@@ -1,4 +1,3 @@
-using System.Numerics;
 using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Util;
@@ -17,7 +16,7 @@ public class ERC721 : IERC721
         _settings = settings;
     }
     
-    public async Task<string> MintAsync(Wallet issuer, string to)
+    public Task<string> MintAsync(Wallet issuer, string to)
     {
         var message = new MintNFTFunction
         {
@@ -25,10 +24,10 @@ public class ERC721 : IERC721
             To = to,
         };
         
-        return await TransferInternalAsync(message, issuer);
+        return TransferInternalAsync(message, issuer);
     }
 
-    public async Task<string> BurnAsync(Wallet issuer, int id)
+    public Task<string> BurnAsync(Wallet issuer, int id)
     {
         var message = new BurnNFTFunction
         {
@@ -36,7 +35,7 @@ public class ERC721 : IERC721
             TokenId = id
         };
 
-        return await TransferInternalAsync(message, issuer);
+        return TransferInternalAsync(message, issuer);
     }
 
     public async Task<bool> IsOwned(string owner)

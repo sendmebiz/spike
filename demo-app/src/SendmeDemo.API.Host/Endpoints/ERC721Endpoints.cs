@@ -6,7 +6,7 @@ public static class ERC721Endpoints
 {
     public static void InitErc721Endpoints(this WebApplication? app, Configuration configs)
     {
-        app.MapPost("/kyc/mint", async (string address) =>
+        app.MapPost("/api/kyc/mint", async (string address) =>
             {
                 string wallet = address switch
                 {
@@ -26,7 +26,7 @@ public static class ERC721Endpoints
             .WithTags("KYC")
             .WithOpenApi();
         
-        app.MapPost("/kyc/burn", async (int tokenId) =>
+        app.MapPost("/api/kyc/burn", async (int tokenId) =>
             {
                 var erc721Service = app.Services.GetService<IERC721>();
                 var result = await erc721Service.BurnAsync(

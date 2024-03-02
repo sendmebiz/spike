@@ -6,7 +6,7 @@ public static class Erc20Endpoints
 {
     public static void InitErc20Endpoints(this WebApplication? app, Configuration configs)
     {
-        app.MapPost("/cbdc/setLimit/", (int limit) =>
+        app.MapPost("/api/cbdc/setLimit/", (int limit) =>
             {
                 var erc20Service = app.Services.GetService<IERC20>();
                 erc20Service.SetLimitAsync(configs.Issuer, limit);
@@ -15,7 +15,7 @@ public static class Erc20Endpoints
             .WithTags("CBDC")
             .WithOpenApi();
 
-        app.MapPost("/cbdc/setPeriod/", (int time, Periods period) =>
+        app.MapPost("/api/cbdc/setPeriod/", (int time, Periods period) =>
             {
                 int per = time == 0 ? 300 : time;
 
@@ -36,7 +36,7 @@ public static class Erc20Endpoints
             .WithTags("CBDC")
             .WithOpenApi();
 
-        app.MapPost("/cbdc/mint", async (int value) =>
+        app.MapPost("/api/cbdc/mint", async (int value) =>
             {
                 var erc20Service = app.Services.GetService<IERC20>();
                 var result = await erc20Service.MintAsync(
@@ -49,7 +49,7 @@ public static class Erc20Endpoints
             .WithTags("CBDC")
             .WithOpenApi();
 
-        app.MapPost("/cbdc/burn", async (int value) =>
+        app.MapPost("/api/cbdc/burn", async (int value) =>
             {
                 var erc20Service = app.Services.GetService<IERC20>();
                 var result = await erc20Service.BurnAsync(
@@ -62,7 +62,7 @@ public static class Erc20Endpoints
             .WithOpenApi();
 
 
-        app.MapPost("/cbdc/transfer", async (string from, string to, int value) =>
+        app.MapPost("/api/cbdc/transfer", async (string from, string to, int value) =>
             {
                 Wallet fromWallet = from switch
                 {
@@ -91,7 +91,7 @@ public static class Erc20Endpoints
             .WithTags("CBDC")
             .WithOpenApi();
 
-        app.MapGet("/cbdc/totalSupply", async () =>
+        app.MapGet("/api/cbdc/totalSupply", async () =>
         {
             var erc20Service = app.Services.GetService<IERC20>();
             int totalSupply = await erc20Service.GetTotalSupplyAsync();
@@ -101,7 +101,7 @@ public static class Erc20Endpoints
         .WithTags("CBDC")
         .WithOpenApi();
 
-        app.MapGet("/cbdc/balance/{address}", async (string address) =>
+        app.MapGet("/api/cbdc/balance/{address}", async (string address) =>
             {
                 string wallet = address switch
                 {

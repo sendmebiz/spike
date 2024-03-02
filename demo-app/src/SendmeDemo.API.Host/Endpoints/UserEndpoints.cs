@@ -6,7 +6,7 @@ public static class UserEndpoints
 {
     public static void InitUserEndpoints(this WebApplication? app, Configuration configs)
     {
-        app.MapGet("/users/", async () =>
+        app.MapGet("/api/users/", async () =>
             {
                 var userService = app.Services.GetService<IUserService>();
                 var users = await userService.GetUserListAsync(configs);
@@ -16,7 +16,7 @@ public static class UserEndpoints
             .WithTags("Users")
             .WithOpenApi();
         
-        app.MapGet("/users/{name}", async (string name) =>
+        app.MapGet("/api/users/{name}", async (string name) =>
             {
                 var userService = app.Services.GetService<IUserService>();
                 var usersDetails = await userService.GetUserDetailsAsync(configs, name);
@@ -26,7 +26,7 @@ public static class UserEndpoints
             .WithTags("Users")
             .WithOpenApi();
         
-        app.MapGet("/users/issuer", async () =>
+        app.MapGet("/api/users/issuer", async () =>
             {
                 var userService = app.Services.GetService<IUserService>();
                 var usersDetails = userService.GetUserDetailsAsync(configs, Participants.ISSUER);
