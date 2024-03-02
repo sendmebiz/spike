@@ -17,14 +17,13 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            // I hate you Shkapo
             '/api': {
                 target: 'http://0.0.0.0:5276',
                 changeOrigin: true,
-                rewrite: (path) => {
-                    console.log(path);
-                    return path.replace(/^\/api/, '');
-                },
+                // rewrite: (path) => {
+                //     console.log(path);
+                //     return path.replace(/^\/api/, '');
+                // },
             },
         },
     }
