@@ -15,4 +15,17 @@ export default defineConfig({
     define: {
         __APP_VERSION__: JSON.stringify(`[${packageJson.name}] v${packageJson.version}`),
     },
+    server: {
+        proxy: {
+            // I hate you Shkapo
+            '/api': {
+                target: 'http://0.0.0.0:5276',
+                changeOrigin: true,
+                rewrite: (path) => {
+                    console.log(path);
+                    return path.replace(/^\/api/, '');
+                },
+            },
+        },
+    }
 })

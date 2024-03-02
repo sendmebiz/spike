@@ -42,8 +42,6 @@ export type { IEndpointInfo };
 
 export const ApiPrefixes = {
     base: '/',
-    api: '/api/v1/',
-    auth: '/connect/',
 } as const;
 
 // convenience re-exports

@@ -13,10 +13,10 @@ function App() {
     }, []);
 
     return (
-        <div className="w-screen h-svh bg-background text-paragraphs font-main text-paragraph">
+        <div className="w-screen h-svh bg-background text-paragraphs font-main text-paragraph overflow-hidden">
             <Header />
             <Sidebar>
-                <main>
+                <main className='w-full overflow-hidden overflow-y-auto'>
                     {isLoaded && <AppRouter />}
                 </main>
             </Sidebar>

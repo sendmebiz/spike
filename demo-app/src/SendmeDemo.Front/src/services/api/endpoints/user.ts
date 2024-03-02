@@ -1,4 +1,5 @@
-import { ApiEndpoint, ApiPrefixes } from './_base';
+import { ApiEndpoint } from './_base';
+import { User } from './dtos/users';
 
-export const GetUsers = ApiEndpoint.get()
+export const GetUsers = ApiEndpoint.get<User[]>()
     .withPath('users');

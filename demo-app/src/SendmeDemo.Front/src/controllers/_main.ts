@@ -7,6 +7,7 @@ import { IController } from './core/types';
 import { NetworkInterceptor } from '@/services/api/interceptor';
 import { UserController } from './users';
 import { cleanupProcessors } from '@/services/api';
+import { SettingsController } from './settings';
 // import { Guard } from './helpers/guard';
 
 export class AppController extends Disposable {
@@ -27,7 +28,7 @@ export class AppController extends Disposable {
 
     private readonly _auth = new AuthController();
     private readonly _users = new UserController();
-
+    private readonly _settings = new SettingsController();
 
     constructor() {
         super();
@@ -41,6 +42,7 @@ export class AppController extends Disposable {
 
     /* @Guard  */public get Auth() { return this._auth; }
     /* @Guard  */public get Users() { return this._users; }
+    /* @Guard  */public get Settings() { return this._settings; }
 
     /* @Guard  */public get Network() { return this._network; }
 
@@ -73,6 +75,7 @@ export class AppController extends Disposable {
 
     private getChildren(): IController[] {
         return [
+            this._settings,
             this._users,
         ];
     }

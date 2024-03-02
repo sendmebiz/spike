@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setDefaults, buildApiCaller } from '@zajno/common/api';
 import { ApiEndpoint } from './endpoints/_base';
 
-axios.defaults.baseURL = 'http://localhost:5276/'; // TODO ENV
+axios.defaults.baseURL = '/api'; // 'http://localhost:5276/'; // TODO ENV
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.delete['Content-Type'] = 'application/json';
 axios.defaults.timeout = 30_000;
