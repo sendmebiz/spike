@@ -14,7 +14,6 @@ export const SidebarPanel = () => {
 
 const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
     const [isActive] = useRoute(to);
-    // const isActive = true;
 
     return (
         <div className='relative'>

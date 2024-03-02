@@ -7,7 +7,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     '@zajno/eslint-config',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'tailwind.*'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'tailwind.*', 'vite.*'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',

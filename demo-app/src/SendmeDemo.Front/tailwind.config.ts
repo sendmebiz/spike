@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss"
 import { colors } from './tailwind.colors';
+import { fontSize, fontFamily } from './tailwind.typography';
 
 const config = {
   darkMode: ["class"],
@@ -17,6 +18,8 @@ const config = {
     },
     extend: {
       colors,
+      fontSize,
+      fontFamily,
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
