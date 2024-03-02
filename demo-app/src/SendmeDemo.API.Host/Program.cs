@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using SendmeDemo;
 using SendmeDemo.Contracts;
 using SendmeDemo.Core;
@@ -28,6 +27,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(t =>
+{
+    t.AllowAnyOrigin();
+    t.AllowAnyHeader();
+    t.AllowAnyMethod();
+});
 
 
 app.InitErc20Endpoints(configs);
