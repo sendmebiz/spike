@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --accent-a1: #3183ff;
+    --accent-a2: #0751bf;
+    --background-a: #000000;
+    --background-b1: #1d2838;
+    --background-b2: rgba(29, 40, 56, .5);
+    --background-b3: rgba(29, 40, 56, .25);
+    --heading: white;
+    --link: rgba(216, 223, 233, .8);
+    --paragraphs: #616d7e;
+    --border: #182233;
+  }
+}
+
+body {
+  background-color: var(--background-a);
+  color: var(--paragraphs);
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+}
