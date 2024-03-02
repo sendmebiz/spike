@@ -12,15 +12,43 @@ public class UserService : IUserService
         _erc20 = erc20;
         _erc721 = erc721;
     }
-    
-    public async Task<IReadOnlyCollection<UserModel>> GetUserList(Configuration config)
+
+    public async Task<IReadOnlyCollection<UserModel>> GetUserListAsync(Configuration config)
     {
-        var users = new List<UserModel>();
-        
-        users.Add(new UserModel(Participants.ISSUER, config.Issuer.PublicKey, ["Issuer"], 1231230)); //TODO add balance
-        users.Add(new UserModel(Participants.ALICE, config.Alice.PublicKey, ["KYC"], 1230)); //TODO add balance
-        users.Add(new UserModel(Participants.BOB, config.Bob.PublicKey, ["Issuer"], 123123)); //TODO add balance
-        
-        return users;
+        var alice = GetUserAsync(config, Participants.ALICE);
+        var bob = GetUserAsync(config, Participants.BOB);
+        var issuer = GetUserAsync(config, Participants.ISSUER);
+
+        await Task.WhenAll(alice, bob, issuer);
+
+        return [alice.Result, bob.Result, issuer.Result];
+    }
+
+    public Task<UserModel> GetUserDetailsAsync(Configuration config, string name)
+    {
+        return GetUserAsync(config, name);
+    }
+
+    private async Task<UserModel> GetUserAsync(Configuration config, string name)
+    {
+        if (name == Participants.ISSUER)
+        {
+            var bal = await _erc20.GetBalanceAsync(config.Issuer.PublicKey);
+            return new UserModel(name, config.Issuer.PublicKey, ["Issuer"], bal);
+        }
+
+        string address = name switch
+        {
+            Participants.ALICE => config.Alice.PublicKey,
+            Participants.BOB => config.Bob.PublicKey,
+            _ => name
+        };
+
+        var balance = _erc20.GetBalanceAsync(address);
+        var isKyc = _erc721.IsOwned(address);
+
+        await Task.WhenAll(balance, isKyc);
+        string? kycStatus = isKyc.Result ? "KYC" : null;
+        return new UserModel(name, address, [kycStatus], balance.Result);
     }
 }

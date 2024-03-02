@@ -1,3 +1,4 @@
+using System.Numerics;
 using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Util;
@@ -37,7 +38,20 @@ public class ERC721 : IERC721
 
         return await TransferInternalAsync(message, issuer);
     }
+
+    public async Task<bool> IsOwned(string owner)
+    {
+        var balance = await GetBalanceAsync(owner);
+        return balance == 1;
+    }
     
+    private async Task<int> GetBalanceAsync(string address)
+    {
+        var web3 = new Web3(_settings.ConnectionString);
+        var balance = await web3.Eth.ERC721.GetContractService(_settings.Address).BalanceOfQueryAsync(address);
+        return (int) balance;
+    }
+
     private async Task<string> TransferInternalAsync<T>(T message,Wallet from) where T : FunctionMessage, new()
     {
         const int chain = 421614;

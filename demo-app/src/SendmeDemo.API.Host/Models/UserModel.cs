@@ -18,3 +18,16 @@ public class UserModel
     public List<string> Properties { get; set; }
     public int Balance { get; set; }
 }
+
+public class IssuerModel : UserModel
+{
+    public IssuerModel(UserModel model, int totalSupply)
+    {
+        Name = model.Name;
+        Address = model.Address;
+        Properties = model.Properties;
+        Balance = model.Balance;
+        TotalSupply = totalSupply;
+    }
+    public int TotalSupply { get; set; }
+}
