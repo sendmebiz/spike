@@ -10,7 +10,6 @@ export class SettingsController extends BaseController {
 
     protected async onInitialize() {
         this._settings = await callApi(Apis.Settings.Get, null);
-        this.logger.log('Settings loaded', this._settings);
     }
 
 }
