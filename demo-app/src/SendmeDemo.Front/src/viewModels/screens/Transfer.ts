@@ -80,8 +80,8 @@ export class TransferViewModel {
         }
 
         const request = {
-            from: this.FromUser.selectedItem!.address,
-            to: this.ToUser.selectedItem!.address,
+            from: this.FromUser.selectedItem!.name,
+            to: this.ToUser.selectedItem!.name,
             value: +this.Amount.value!,
         };
 

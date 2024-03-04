@@ -19,7 +19,7 @@ export const TransferFail = observer(({ model }: Props) => {
 
             <div className='flex flex-row justify-center mt-10'>
                 <Button onClick={model.resetToStart}>
-                    Transfer again
+                    Try again
                 </Button>
             </div>
         </div>

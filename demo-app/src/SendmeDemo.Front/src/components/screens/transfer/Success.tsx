@@ -31,7 +31,7 @@ export const TransferSuccess = observer(({ model }: Props) => {
 
             <div className='flex flex-row justify-center mt-10'>
                 <Button onClick={model.resetToStart}>
-                    Transfer again
+                    Make Another One
                 </Button>
             </div>
         </div>
