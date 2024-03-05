@@ -56,6 +56,20 @@ export const fontSize: ThemeConfig['fontSize'] = {
             fontWeight: '400',
         }
     ],
+    main: [
+        '24px',
+        {
+            lineHeight: '120%',
+            fontWeight: '500',
+        }
+    ],
+    medium: [
+        '20px',
+        {
+            lineHeight: '120%',
+            fontWeight: '500',
+        }
+    ],
     small: [
         '14px',
         {
@@ -64,10 +78,10 @@ export const fontSize: ThemeConfig['fontSize'] = {
         }
     ],
     button: [
-        '18px',
+        '20px',
         {
             lineHeight: '140%',
-            fontWeight: '400',
+            fontWeight: '500',
         }
     ],
 };

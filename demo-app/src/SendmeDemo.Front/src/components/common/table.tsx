@@ -13,7 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/common/ui/table';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '../utils';
 
 interface DataTableProps<TData, TValue> {
     className?: string
@@ -35,7 +35,7 @@ export function DataTable<TData, TValue>({
     return (
         <div
             className={twMerge(
-                'rounded-md border w-full',
+                'w-full p-4 background-gradient rounded-2xl',
                 className,
             )}
         >

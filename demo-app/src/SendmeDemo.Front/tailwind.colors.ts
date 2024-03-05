@@ -7,7 +7,7 @@ export const colors: ThemeConfig['colors'] = {
     'background-b1': '#1d2838',
     'background-b2': 'rgba(29, 40, 56, .5)',
     'background-b3': 'rgba(29, 40, 56, .25)',
-    main: '#FFFFFF',
+    primary: '#FFFFFF',
     paragraphs: '#616d7e',
     border: '#182233',
 };

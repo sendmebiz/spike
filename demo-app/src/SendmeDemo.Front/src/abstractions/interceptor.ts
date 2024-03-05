@@ -1,6 +1,7 @@
 import { ErrorCodes } from '@/services/api/constants';
 import { IEndpointInfo } from '@zajno/common/api';
 import { StatusCodes } from '@zajno/common/api/statusCodes';
+import { IValueModelReadonly } from '@zajno/common/models/types';
 import { IEvent } from '@zajno/common/observing/event';
 import { Getter } from '@zajno/common/types/getter';
 
@@ -26,7 +27,7 @@ export interface INetworkAuthData {
 }
 
 export interface INetworkInterceptor {
-    readonly requestsCount: number;
+    readonly requestsCount: IValueModelReadonly<number>;
     readonly isNewVersionAvailable: boolean;
 
     readonly errorOccurred: IEvent<ErrorEventData>;

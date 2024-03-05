@@ -18,7 +18,7 @@ export const Header = () => {
                 <DialogTrigger asChild>
                     <Button className="ml-auto">Transfer</Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className='px-10 max-w-xl'>
                     <DialogHeader>
                         <DialogTitle>Transfer</DialogTitle>
                         <TransferDialog />

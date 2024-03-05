@@ -4,17 +4,17 @@ import { NumberModel } from '@zajno/common-mobx/viewModels/NumberModel';
 import { FlagModel } from '@zajno/common-mobx/viewModels/FlagModel';
 import { Event } from '@zajno/common/observing/event';
 import type { RequestConfigDetails } from '@zajno/common/api/call';
-import { IEndpointInfo, getFormattedDisplayName } from '@zajno/common/api';
+import { getFormattedDisplayName } from '@zajno/common/api';
 import { Getter } from '@zajno/common/types';
 import { createLogger } from '@/logger';
 import { StatusCodes, ErrorCodes, Texts } from './constants';
 import { ApiError } from './error';
 import { ApiEndpoint, EndpointMethods } from './endpoints/_base';
 import { ErrorEventData, INetworkAuthData, INetworkInterceptor, UnAuthorizedEventData } from '@/abstractions/interceptor';
+import { IValueModelReadonly } from '@zajno/common/models/types';
 
 
 const logger = createLogger('[API]');
-
 
 export class NetworkInterceptor extends Disposable implements INetworkInterceptor {
 
@@ -25,7 +25,7 @@ export class NetworkInterceptor extends Disposable implements INetworkIntercepto
 
     private _authData: Getter<INetworkAuthData | undefined>;
 
-    public get requestsCount() { return this._requestsCount.value; }
+    public get requestsCount(): IValueModelReadonly<number> { return this._requestsCount; }
     public get errorOccurred() { return this._errorOccurred.expose(); }
     public get onUnauthorized() { return this._onUnauthorized.expose(); }
     public get isNewVersionAvailable() { return this._isNewVersionAvailable.value; }

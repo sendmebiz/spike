@@ -1,11 +1,13 @@
 import { AppRoutes } from '@/constants/routes';
 import { Link } from '@/components/common/link';
 import { useRoute } from 'wouter';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '../utils';
+import { combineUrls } from '@zajno/common/structures/path';
+import { useMemo } from 'react';
 
 export const SidebarPanel = () => {
     return (
-        <aside className="w-72 h-full bg-background-b2 flex flex-col px-10 pt-6 gap-1">
+        <aside className="w-80 h-full bg-background-b2 flex flex-col px-10 pt-6 gap-1">
             <NavLink to={AppRoutes.Users.Root}>Users</NavLink>
             <NavLink to={AppRoutes.Issuer}>Issuer</NavLink>
         </aside>
@@ -13,7 +15,8 @@ export const SidebarPanel = () => {
 };
 
 const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
-    const [isActive] = useRoute(to);
+    const toPattern = useMemo(() => combineUrls({ addStart: true }, to, '*?'), [to]);
+    const [isActive] = useRoute(toPattern);
 
     return (
         <div className='relative'>

@@ -1,3 +1,4 @@
+import { Loader } from '@/components/Loader';
 import { UsersTable } from '@/components/UsersTable';
 import { AppController } from '@/controllers';
 import { observer } from 'mobx-react-lite';
@@ -7,16 +8,18 @@ export const UsersPage = observer(() => {
     const users = AppController.Instance.Users.users;
 
     return (
-        <div className='p-10 flex flex-col w-full'>
-            <h3 className="text-hh3 text-main">Users</h3>
+        <div className='py-10 px-16 container flex flex-col mx-auto'>
+            {/* <h3 className="text-hh3 text-primary">Users</h3> */}
 
             <div className='list mt-8 w-full'>
-                {users && (
-                    <UsersTable
-                        items={users}
-                    />
-                )}
+                {!users.busy && <UsersTable
+                    items={users.value || []}
+                />}
             </div>
+            <Loader
+                className='w-full h-full'
+                visible={users.busy}
+            />
         </div>
     );
 });

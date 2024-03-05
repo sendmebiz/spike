@@ -1,7 +1,9 @@
+import { User } from '@/services/api/endpoints/dtos/users';
 import { BaseController } from './core/base';
 import { Apis, callApi } from '@/services/api';
 import { LazyPromiseObservable } from '@zajno/common-mobx/lazy/observable';
 import { PromiseCacheObservable } from '@zajno/common-mobx/structures/promiseCache';
+import { ILazyPromise } from '@zajno/common/lazy/promise';
 
 export class UserController extends BaseController {
 
@@ -12,9 +14,9 @@ export class UserController extends BaseController {
     });
     private readonly _transactions = new PromiseCacheObservable((name: string) => callApi(Apis.Users.GetUser, { name }));
 
-    public get users() { return this._users.value; }
+    public get users(): ILazyPromise<User[]> { return this._users; }
 
-    public getTransactions(name: string) {
+    public getInfo(name: string) {
         return this._transactions.getDeferred(name);
     }
 }

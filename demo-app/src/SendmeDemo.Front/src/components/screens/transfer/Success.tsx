@@ -14,7 +14,7 @@ export const TransferSuccess = observer(({ model }: Props) => {
         <div className="w-full flex flex-col">
             <Send className="w-20 h-20 mx-auto mt-10 text-accent-a1" />
 
-            <div className='text-paragraph w-full text-center text-main mt-4'>
+            <div className='text-paragraph w-full text-center text-primary mt-4'>
                 Transaction successful
             </div>
 

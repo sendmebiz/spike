@@ -1,6 +1,6 @@
 import { Link as LinkWouter } from 'wouter';
 import { buttonVariants } from './ui/button';
-import { twJoin } from 'tailwind-merge';
+import { twMerge } from '../utils';
 
 type Props = React.PropsWithChildren<{
     replace?: boolean,
@@ -17,7 +17,7 @@ export const Link = ({ children, className, ...rest }: Props) => {
     return (
         <LinkWouter
             {...rest}
-            className={twJoin(
+            className={twMerge(
                 buttonVariants({ variant: 'link', className })
             )}
         >

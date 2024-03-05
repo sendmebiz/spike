@@ -20,6 +20,9 @@ const config = {
       colors,
       fontSize,
       fontFamily,
+      container: {
+        center: true,
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -36,7 +39,19 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function ({ addComponents }) {
+      addComponents({
+        '.container': {
+          maxWidth: '100%',
+          '@media screen(lg)': {
+            maxWidth: '1024px',
+          },
+        },
+      })
+    },
+  ],
 } satisfies Config
 
 export default config

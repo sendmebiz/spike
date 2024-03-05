@@ -26,18 +26,18 @@ export class TransferViewModel {
     public readonly Mode = new ValueModel<TransferStates>(TransferStates.Transfer);
 
     public readonly FromUser = new Select(
-        () => AppController.Instance.Users.users,
+        () => AppController.Instance.Users.users.value || [],
         u => u.name,
         -1,
     ).setValidationConfig(Validations.User);
 
     public readonly ToUser = new Select(
-        () => AppController.Instance.Users.users,
+        () => AppController.Instance.Users.users.value || [],
         u => u.name,
         -1,
     ).setValidationConfig(Validations.User);
 
-    public readonly Amount = new TextInputVM({ value: '0' })
+    public readonly Amount = new TextInputVM({ value: '' })
         .setValidationConfig(Validations.Amount);
 
     private readonly _error = new ValueModel<string | null>(null);
@@ -63,6 +63,10 @@ export class TransferViewModel {
     });
 
     public get error(): IValueModelReadonly<string | null> { return this._error; }
+    public get isLoading() {
+        // return true;
+        return AppController.Instance.Users.isLoading || AppController.Instance.Bank.isLoading;
+    }
     public get transactionId(): IValueModelReadonly<string | null> { return this._transactionId; }
     public get transactionUrl() { return this._transactionUrl.value; }
 

@@ -19,7 +19,33 @@
 
 body {
   background-color: var(--background-a);
-  color: var(--paragraphs);
+  color: white;
   font-family: 'Inter', sans-serif;
   font-size: 18px;
+}
+
+.background-gradient {
+  background: linear-gradient(140deg, var(--background-b1), var(--background-b2));
+}
+
+@mixin glow-filter {
+  filter: drop-shadow(0 0 5px var(--accent-a1));
+}
+
+.glow {
+  @include glow-filter;
+}
+
+.glow-hover {
+  &:hover {
+    @include glow-filter;
+  }
+}
+
+.glow-hover-inner-img {
+  &:hover {
+    img {
+      @include glow-filter;
+    }
+  }
 }

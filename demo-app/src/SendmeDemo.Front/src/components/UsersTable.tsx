@@ -17,14 +17,24 @@ const columns: ColumnDef<User>[] = [
         id: 'name',
         header: 'Name',
         cell: (cell) => (
-            <Link to={AppRoutes.Users({ name: cell.row.original?.name || '?' })}>
+            <Link
+                to={AppRoutes.Users({ name: cell.row.original?.name || '?' })}
+                className='text-main text-primary justify-start px-1'
+            >
                 {cell.row.original?.name}
             </Link>
         ),
     },
     {
-        accessorKey: 'balance',
+        id: 'balance',
         header: 'Balance',
+        cell: (cell) => (
+            <div
+                className='text-white text-main'
+            >
+                {cell.row.original?.balance}
+            </div>
+        ),
     },
     {
         id: 'properties',
@@ -34,7 +44,7 @@ const columns: ColumnDef<User>[] = [
                 {cell.row.original?.properties?.filter(Boolean).map((prop, i) => (
                     <div
                         key={i}
-                        className='px-4 py-1 mx-1 inline rounded-full bg-accent-a1 text-background'
+                        className='px-4 py-2 mx-1 inline rounded-full bg-accent-a1 text-primary text-medium font-medium'
                     >
                         {prop}
                     </div>
@@ -47,7 +57,7 @@ const columns: ColumnDef<User>[] = [
         header: '',
         maxSize: 30,
         cell: (cell) => (
-            <div className='w-5'>
+            <div className='w-7'>
                 <a
                     target='_blank'
                     href={combineUrls(
@@ -55,6 +65,7 @@ const columns: ColumnDef<User>[] = [
                         'address',
                         cell.row.original?.address,
                     )}
+                    className='glow-hover-inner-img'
                 >
                     <img src={OutIconUrl} alt='Open in etherscan' />
                 </a>
