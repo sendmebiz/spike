@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --accent-a1: #3183ff;
+    --accent-a2: #0751bf;
+    --background-a: #000000;
+    --background-b1: #1d2838;
+    --background-b2: rgba(29, 40, 56, .5);
+    --background-b3: rgba(29, 40, 56, .25);
+    --heading: white;
+    --link: rgba(216, 223, 233, .8);
+    --paragraphs: #616d7e;
+    --border: #182233;
+  }
+}
+
+body {
+  background-color: var(--background-a);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+}
+
+.background-gradient {
+  background: linear-gradient(140deg, var(--background-b1), var(--background-b2));
+}
+
+@mixin glow-filter {
+  filter: drop-shadow(0 0 5px var(--accent-a1));
+}
+
+.glow {
+  @include glow-filter;
+}
+
+.glow-hover {
+  &:hover {
+    @include glow-filter;
+  }
+}
+
+.glow-hover-inner-img {
+  &:hover {
+    img {
+      @include glow-filter;
+    }
+  }
+}
