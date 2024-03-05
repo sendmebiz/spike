@@ -6,7 +6,7 @@ import { twMerge } from 'tailwind-merge';
 export const SidebarPanel = () => {
     return (
         <aside className="w-72 h-full bg-background-b2 flex flex-col px-10 pt-6 gap-1">
-            <NavLink to={AppRoutes.Users}>Users</NavLink>
+            <NavLink to={AppRoutes.Users.Root}>Users</NavLink>
             <NavLink to={AppRoutes.Issuer}>Issuer</NavLink>
         </aside>
     );

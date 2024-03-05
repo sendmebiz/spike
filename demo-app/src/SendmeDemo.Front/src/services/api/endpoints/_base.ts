@@ -10,7 +10,7 @@ export { EndpointMethods };
 
 type SchemaValidation<T extends AnyObject | null> = T extends null ? never : Yup.ObjectSchema<T>;
 
-declare module '@zajno/common/api' {
+declare module '@zajno/common/api/endpoint' {
     export interface ApiEndpoint<
         TIn extends object | null,
         TOut,
@@ -45,5 +45,5 @@ export const ApiPrefixes = {
 } as const;
 
 // convenience re-exports
-export type Output<T> = ApiEndpoint.ExtractOut<T>;
-export type Errors<T> = ApiEndpoint.ExtractErrors<T>;
+export type Output<T> = IEndpointInfo.ExtractOut<T>;
+export type Errors<T> = IEndpointInfo.ExtractErrors<T>;
