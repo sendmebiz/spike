@@ -5,6 +5,6 @@ namespace SendmeDemo.Core;
 
 public interface IUserService
 {
-    public Task<IReadOnlyCollection<IUserModel>> GetUserListAsync(Configs config);
-    Task<IUserModel> GetUserDetailsAsync(Configs config, string name);
+    public Task<IReadOnlyCollection<UserModel>> GetUserListAsync(Configs config);
+    Task<UserModel> GetUserDetailsAsync(Configs config, string name);
 }
