@@ -16,22 +16,12 @@ public static class Erc20Endpoints
             .WithTags("CBDC")
             .WithOpenApi();
 
-        app.MapPost("/api/cbdc/setPeriod/", async (int time, Periods period) =>
+        app.MapPost("/api/cbdc/setPeriod/", async (int time) =>
             {
-                int per = time == 0 ? 300 : time;
-
-                switch (period)
-                {
-                    case Periods.Minutes:
-                        per = time * 60;
-                        break;
-                    case Periods.Hours:
-                        per = time * 60 * 60;
-                        break;
-                }
+                time = time == 0 ? 300 : time;
 
                 var erc20Service = app.Services.GetService<IERC20>();
-                await erc20Service.SetPeriodAsync(configs.Issuer, per);
+                await erc20Service.SetPeriodAsync(configs.Issuer, time);
             }).WithName("SetPeriod")
             .WithTags("CBDC")
             .WithOpenApi();
