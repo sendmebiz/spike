@@ -1,7 +1,6 @@
 import { Redirect, Route, Switch } from 'wouter';
 import { UsersPage } from './pages/users';
 import { AppRoutes } from './constants/routes';
-import { IssuerPage } from './pages/issuer';
 import { UserInner } from './pages/userInner';
 
 export const AppRouter = () => {
@@ -12,10 +11,6 @@ export const AppRouter = () => {
             </Route>
             <Route path={AppRoutes.Users.Template}>
                 <UserInner />
-            </Route>
-
-            <Route path={AppRoutes.Issuer}>
-                <IssuerPage />
             </Route>
 
             <Route>

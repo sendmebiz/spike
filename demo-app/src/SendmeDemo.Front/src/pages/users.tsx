@@ -1,5 +1,5 @@
 import { Loader } from '@/components/Loader';
-import { UsersTable } from '@/components/UsersTable';
+import { UsersTable } from '@/components/screens/UsersTable';
 import { AppController } from '@/controllers';
 import { observer } from 'mobx-react-lite';
 

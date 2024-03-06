@@ -1,4 +1,5 @@
 import { Path } from '@zajno/common/structures/path';
+import { IssuerName } from './names';
 
 const getDynamicRoute = <P extends Path.BaseInput[]>(...inputs: P) => {
     const builder = Path.construct(...inputs);
@@ -11,5 +12,5 @@ const getDynamicRoute = <P extends Path.BaseInput[]>(...inputs: P) => {
 
 export namespace AppRoutes {
     export const Users = getDynamicRoute('users', Path.build`${'name'}`);
-    export const Issuer = '/issuer';
+    export const Issuer = Users({ name: IssuerName }) as '/users/Issuer';
 }

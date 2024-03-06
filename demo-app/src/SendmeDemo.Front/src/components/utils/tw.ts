@@ -12,6 +12,7 @@ export const TwConfigMerge = {
 };
 
 export const twMerge = extendTailwindMerge(TwConfigMerge);
+export { twJoin } from 'tailwind-merge';
 
 export function cn(...inputs: ClassNameValue[]) {
   return twMerge(inputs);

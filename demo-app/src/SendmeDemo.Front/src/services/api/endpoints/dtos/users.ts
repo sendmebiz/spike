@@ -4,4 +4,5 @@ export type User = {
     address: string;
     properties: string[];
     balance: number;
+    totalSupply?: number;
 };

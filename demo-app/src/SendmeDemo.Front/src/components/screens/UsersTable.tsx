@@ -1,10 +1,11 @@
 import { User } from '@/services/api/endpoints/dtos/users';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from './common/table';
+import { DataTable } from '../common/table';
 import { combineUrls } from '@zajno/common/structures/path';
 import { AppController } from '@/controllers';
-import { Link } from './common/link';
+import { Link } from '../common/link';
 import { AppRoutes } from '@/constants/routes';
+import { formatCurrency } from '../utils/format';
 import OutIconUrl from '@/assets/out-icon.svg?url';
 
 type Props = {
@@ -32,7 +33,7 @@ const columns: ColumnDef<User>[] = [
             <div
                 className='text-white text-main'
             >
-                {cell.row.original?.balance}
+                {formatCurrency(cell.row.original?.balance)}
             </div>
         ),
     },

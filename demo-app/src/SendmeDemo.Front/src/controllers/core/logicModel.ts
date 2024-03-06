@@ -28,6 +28,10 @@ export class LogicModel {
         // override me
     }
 
+    protected onActionComplete(_name?: string) {
+        // override me
+    }
+
     public resetError() {
         transaction(() => {
             this._error.reset();
@@ -56,6 +60,8 @@ export class LogicModel {
             if (name) {
                 this.logger.log(`runAction "${name}" succeed in ${Date.now() - started}ms`);
             }
+
+            this.onActionComplete(name);
             return result;
         };
 

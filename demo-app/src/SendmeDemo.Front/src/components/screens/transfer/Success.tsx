@@ -1,6 +1,6 @@
 import { Button } from '@/components/common/ui/button';
+import { shortenAddress } from '@/components/utils/format';
 import { TransferViewModel } from '@/viewModels/screens/Transfer';
-import { Nullable } from '@zajno/common/types';
 import { Send, ArrowUpRightFromSquare } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 
@@ -37,11 +37,3 @@ export const TransferSuccess = observer(({ model }: Props) => {
         </div>
     );
 });
-
-function shortenAddress(address: Nullable<string>): Nullable<string> {
-    if (!address || address.length < 30) {
-        return address;
-    }
-
-    return address.slice(0, 12) + '...' + address.slice(-10);
-}

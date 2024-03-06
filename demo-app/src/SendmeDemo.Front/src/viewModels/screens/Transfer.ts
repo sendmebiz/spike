@@ -3,16 +3,16 @@ import { Select, TextInputVM, ValueModel } from '@zajno/common-mobx/viewModels';
 import { catchPromise } from '@zajno/common/functions/safe';
 import { createLazy } from '@zajno/common/lazy/light';
 import { IValueModelReadonly } from '@zajno/common/models/types';
-import { combineUrls } from '@zajno/common/structures/path';
 import { IsSomeInvalid } from '@zajno/common/validation';
 import { createThrowers } from '@zajno/common/validation/throwers';
 import { ComputedValueModel } from '@zajno/common-mobx/viewModels/ComputedValueModel';
 import * as Yup from 'yup';
 import { action } from 'mobx';
+import { getTransactionLink } from './utils/links';
 
 const Validations = createThrowers({
     User: Yup.object().required('Please select user'),
-    Amount: Yup.number().required('Please enter amount').min(1, 'Amount should be greater than 0'),
+    Amount: Yup.number().required('Please enter amount').min(0.00001, 'Amount should be greater than 0'),
 });
 
 export enum TransferStates {
@@ -55,11 +55,7 @@ export class TransferViewModel {
             return null;
         }
 
-        return combineUrls(
-            AppController.Instance.Settings.settings.etherscan,
-            'tx',
-            id,
-        );
+        return getTransactionLink(id);
     });
 
     public get error(): IValueModelReadonly<string | null> { return this._error; }
