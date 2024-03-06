@@ -34,21 +34,24 @@ export class UserController extends BaseController {
     }
 
     private refreshUsers = async () => {
-        if (this._isRefreshing.value) {
+        if (this._isRefreshing.value || !this._users.hasValue) {
             return;
         }
 
         this._isRefreshing.setTrue();
         const current = this._users.value;
 
-        const getHash = (data: User[]) => JSON.stringify(data);
+        const getHash = (data: User[]) => JSON.stringify(data.slice().sort((a, b) => a.name.localeCompare(b.name)));
         const getData = () => callApi(Apis.Users.GetUsers, null);
-        const Timeout = 3000;
+        const Timeout = 5000;
+        const MaxRetries = 10;
+
+        this.logger.log('Refreshing data, timeout =', Timeout, 'ms, max retries =', MaxRetries);
 
         const hash = getHash(current);
         let nextData = await getData();
 
-        let repeatTimes = 10;
+        let repeatTimes = MaxRetries;
 
         try {
             while (getHash(nextData) === hash && repeatTimes-- > 0) {
@@ -61,6 +64,9 @@ export class UserController extends BaseController {
                     this._users.setInstance(nextData);
                     nextData.forEach(item => this._transactions.updateValueDirectly(item.name, item));
                 });
+                this.logger.log('Data refreshed after', MaxRetries - repeatTimes, 'retries');
+            } else {
+                this.logger.warn('Data refresh timed out');
             }
 
         } finally {

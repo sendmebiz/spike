@@ -17,6 +17,10 @@ export class BankController extends BaseController {
     }, 'burn');
 
     protected onActionComplete(_name?: string | undefined): void {
+        if (!this.isInitialized) {
+            return;
+        }
+
         WorldChanged.trigger();
     }
 }
