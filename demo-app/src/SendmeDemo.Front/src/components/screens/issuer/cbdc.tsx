@@ -41,7 +41,7 @@ const AmountField = observer(({ model, placeholder, disabled, submitText }: Amou
         <div className='flex flex-col gap-2'>
             <div className='flex flex-row w-full items-baseline gap-10'>
                 <Input
-                    className='basis-1/3 min-w-[200px]'
+                    className='w-[200px]'
                     type='number'
                     value={model.Input.value || ''}
                     min={0}
@@ -52,7 +52,7 @@ const AmountField = observer(({ model, placeholder, disabled, submitText }: Amou
                 />
 
                 <Button
-                    className='min-w-[200px]'
+                    className='w-[200px]'
                     onClick={model.Submit}
                 >
                     {submitText || 'Submit'}
