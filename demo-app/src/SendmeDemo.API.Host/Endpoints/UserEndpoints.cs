@@ -36,7 +36,7 @@ public static class UserEndpoints
 
                 await Task.WhenAll(usersDetails, totalSupply);
             
-                return new IssuerModel(usersDetails.Result, totalSupply.Result);
+                return new IssuerModel((UserModel) usersDetails.Result, totalSupply.Result);
             }).WithName("GetIssuerDetails")
             .WithTags("Users")
             .WithOpenApi();

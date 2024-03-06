@@ -1,6 +1,14 @@
 namespace SendmeDemo;
 
-public class UserModel
+public interface IUserModel
+{
+    string Name { get; set; }
+    string Address { get; set; }
+    List<string> Properties { get; set; }
+    decimal Balance { get; set; }
+}
+
+public class UserModel : IUserModel
 {
     public UserModel()
     { }
