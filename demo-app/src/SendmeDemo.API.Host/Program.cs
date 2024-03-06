@@ -1,12 +1,14 @@
+using Securrency.LiquidityEngine.API.Host.ExceptionHandling;
 using SendmeDemo;
+using SendmeDemo.Configuration;
 using SendmeDemo.Contracts;
 using SendmeDemo.Core;
 using SendmeDemo.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.Configure<Configuration>(builder.Configuration);
+builder.Services.Configure<Configs>(builder.Configuration);
 
-var configs = builder.Configuration.Get<Configuration>();
+var configs = builder.Configuration.Get<Configs>();
 
 builder.Services.AddTransient<IERC20, ERC20>(_ => new ERC20(configs.ERC20));
 builder.Services.AddTransient<IERC721, ERC721>(_ => new ERC721(configs.ERC721));
@@ -27,6 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 app.UseCors(t =>
 {
@@ -34,6 +37,9 @@ app.UseCors(t =>
     t.AllowAnyHeader();
     t.AllowAnyMethod();
 });
+
+app.UseMiddleware<ExceptionHandlingMiddleware>(
+    new ExceptionHandlingMiddlewareOptions { DiagnosticsEnabled = false, TracingUrl = string.Empty });
 
 
 app.InitErc20Endpoints(configs);

@@ -1,10 +1,11 @@
+using SendmeDemo.Configuration;
 using SendmeDemo.Contracts;
 
 namespace SendmeDemo.Endpoints;
 
 public static class ERC721Endpoints
 {
-    public static void InitErc721Endpoints(this WebApplication? app, Configuration configs)
+    public static void InitErc721Endpoints(this WebApplication? app, Configs configs)
     {
         app.MapPost("/api/kyc/mint", async (string address) =>
             {

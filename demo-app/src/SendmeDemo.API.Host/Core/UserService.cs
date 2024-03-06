@@ -1,3 +1,4 @@
+using SendmeDemo.Configuration;
 using SendmeDemo.Contracts;
 
 namespace SendmeDemo.Core;
@@ -13,7 +14,7 @@ public class UserService : IUserService
         _erc721 = erc721;
     }
 
-    public async Task<IReadOnlyCollection<UserModel>> GetUserListAsync(Configuration config)
+    public async Task<IReadOnlyCollection<UserModel>> GetUserListAsync(Configs config)
     {
         var alice = GetUserAsync(config, Participants.ALICE);
         var bob = GetUserAsync(config, Participants.BOB);
@@ -24,12 +25,12 @@ public class UserService : IUserService
         return [alice.Result, bob.Result, issuer.Result];
     }
 
-    public Task<UserModel> GetUserDetailsAsync(Configuration config, string name)
+    public Task<UserModel> GetUserDetailsAsync(Configs config, string name)
     {
         return GetUserAsync(config, name);
     }
 
-    private async Task<UserModel> GetUserAsync(Configuration config, string name)
+    private async Task<UserModel> GetUserAsync(Configs config, string name)
     {
         if (name == Participants.ISSUER)
         {

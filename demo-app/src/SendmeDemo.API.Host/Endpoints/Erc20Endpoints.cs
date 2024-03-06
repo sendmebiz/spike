@@ -1,21 +1,22 @@
 using Org.BouncyCastle.Asn1.X509;
+using SendmeDemo.Configuration;
 
 namespace SendmeDemo.Endpoints;
 
 public static class Erc20Endpoints
 {
-    public static void InitErc20Endpoints(this WebApplication? app, Configuration configs)
+    public static void InitErc20Endpoints(this WebApplication? app, Configs configs)
     {
-        app.MapPost("/api/cbdc/setLimit/", (int limit) =>
+        app.MapPost("/api/cbdc/setLimit/", async (int limit) =>
             {
                 var erc20Service = app.Services.GetService<IERC20>();
-                erc20Service.SetLimitAsync(configs.Issuer, limit);
+                await erc20Service.SetLimitAsync(configs.Issuer, limit);
             })
             .WithName("SetLimit")
             .WithTags("CBDC")
             .WithOpenApi();
 
-        app.MapPost("/api/cbdc/setPeriod/", (int time, Periods period) =>
+        app.MapPost("/api/cbdc/setPeriod/", async (int time, Periods period) =>
             {
                 int per = time == 0 ? 300 : time;
 
@@ -30,13 +31,12 @@ public static class Erc20Endpoints
                 }
 
                 var erc20Service = app.Services.GetService<IERC20>();
-                var result = erc20Service.SetPeriodAsync(configs.Issuer, per);
-                Console.WriteLine(result);
+                await erc20Service.SetPeriodAsync(configs.Issuer, per);
             }).WithName("SetPeriod")
             .WithTags("CBDC")
             .WithOpenApi();
 
-        app.MapPost("/api/cbdc/mint", async (int value) =>
+        app.MapPost("/api/cbdc/mint", async (decimal value) =>
             {
                 var erc20Service = app.Services.GetService<IERC20>();
                 var result = await erc20Service.MintAsync(
@@ -49,7 +49,7 @@ public static class Erc20Endpoints
             .WithTags("CBDC")
             .WithOpenApi();
 
-        app.MapPost("/api/cbdc/burn", async (int value) =>
+        app.MapPost("/api/cbdc/burn", async (decimal value) =>
             {
                 var erc20Service = app.Services.GetService<IERC20>();
                 var result = await erc20Service.BurnAsync(
@@ -62,7 +62,7 @@ public static class Erc20Endpoints
             .WithOpenApi();
 
 
-        app.MapPost("/api/cbdc/transfer", async (string from, string to, int value) =>
+        app.MapPost("/api/cbdc/transfer", async (string from, string to, decimal value) =>
             {
                 Wallet fromWallet = from switch
                 {
@@ -94,9 +94,9 @@ public static class Erc20Endpoints
         app.MapGet("/api/cbdc/totalSupply", async () =>
         {
             var erc20Service = app.Services.GetService<IERC20>();
-            int totalSupply = await erc20Service.GetTotalSupplyAsync();
+            decimal totalSupply = await erc20Service.GetTotalSupplyAsync();
             
-            return totalSupply;
+            return totalSupply.ToString();
         }).WithName("GetTotalSupply")
         .WithTags("CBDC")
         .WithOpenApi();
@@ -112,9 +112,9 @@ public static class Erc20Endpoints
                 };
                 
                 var erc20Service = app.Services.GetService<IERC20>();
-                int totalSupply = await erc20Service.GetBalanceAsync(wallet);
+                decimal balance = await erc20Service.GetBalanceAsync(wallet);
             
-                return totalSupply;
+                return balance.ToString();
             }).WithName("GetBalance")
             .WithTags("CBDC")
             .WithOpenApi();

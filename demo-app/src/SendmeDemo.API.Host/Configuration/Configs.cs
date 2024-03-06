@@ -1,6 +1,6 @@
-namespace SendmeDemo;
+namespace SendmeDemo.Configuration;
 
-public class Configuration
+public class Configs
 {
     public ContractSettings ERC20 { get; set; } = new();
     public ContractSettings ERC721 { get; set; } = new();

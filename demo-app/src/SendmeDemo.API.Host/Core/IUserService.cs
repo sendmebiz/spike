@@ -1,8 +1,10 @@
 
+using SendmeDemo.Configuration;
+
 namespace SendmeDemo.Core;
 
 public interface IUserService
 {
-    public Task<IReadOnlyCollection<UserModel>> GetUserListAsync(Configuration config);
-    Task<UserModel> GetUserDetailsAsync(Configuration config, string name);
+    public Task<IReadOnlyCollection<UserModel>> GetUserListAsync(Configs config);
+    Task<UserModel> GetUserDetailsAsync(Configs config, string name);
 }
