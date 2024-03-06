@@ -34,8 +34,11 @@ public class UserService : IUserService
     {
         if (name == Participants.ISSUER)
         {
-            var bal = await _erc20.GetBalanceAsync(config.Issuer.PublicKey);
-            return new UserModel(name, config.Issuer.PublicKey, ["Issuer"], bal);
+            var bal = _erc20.GetBalanceAsync(config.Issuer.PublicKey);
+            var totalSupply = _erc20.GetTotalSupplyAsync();
+            await Task.WhenAll(bal, totalSupply);
+            var user = new UserModel(name, config.Issuer.PublicKey, ["Issuer"], bal.Result);
+            return new IssuerModel(user, totalSupply.Result);
         }
 
         string address = name switch
