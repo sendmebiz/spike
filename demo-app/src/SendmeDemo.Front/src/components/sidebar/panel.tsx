@@ -8,9 +8,9 @@ export const SidebarPanel = () => {
     const isIssuer = path === AppRoutes.Issuer;
 
     return (
-        <aside className="w-80 h-full bg-background-b2 flex flex-col px-10 pt-6 gap-1">
+        <aside className="w-80 h-full bg-background-b2 flex flex-col px-10 pt-6 gap-3">
             <NavLink to={AppRoutes.Users.Root} isActive={!isIssuer}>Users</NavLink>
-            <NavLink to={AppRoutes.Issuer} isActive={isIssuer}>Issuer</NavLink>
+            <NavLink to={AppRoutes.Issuer} isActive={isIssuer}>Issuer Portal</NavLink>
         </aside>
     );
 };
@@ -27,7 +27,7 @@ const NavLink = ({ to, children, isActive }: NavLinkProps) => {
             <Link
                 to={to}
                 className={twMerge(
-                    'pl-0',
+                    'pl-0 text-main',
                     isActive ? 'text-accent-a1' : undefined,
                 )}
             >

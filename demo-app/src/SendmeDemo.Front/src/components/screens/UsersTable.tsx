@@ -45,7 +45,7 @@ const columns: ColumnDef<User>[] = [
                 {cell.row.original?.properties?.filter(Boolean).map((prop, i) => (
                     <div
                         key={i}
-                        className='px-4 py-2 mx-1 inline rounded-full bg-accent-a1 text-primary text-medium font-medium'
+                        className='px-4 py-2 mx-1 inline rounded-xl border-2 border-white text-primary text-medium font-medium'
                     >
                         {prop}
                     </div>

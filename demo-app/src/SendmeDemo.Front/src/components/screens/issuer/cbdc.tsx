@@ -14,7 +14,7 @@ type Props = {
 export const CbdcInputs = ({ model }: Props) => {
 
     return (
-        <div className='flex flex-col gap-4 mt-6 w-min items-start'>
+        <div className='flex flex-col gap-4 mt-6 items-start p-6 background-gradient rounded-lg'>
             <AmountField
                 model={model.Issue}
                 placeholder='Enter amount'
@@ -38,10 +38,10 @@ type AmountFieldProps = {
 
 const AmountField = observer(({ model, placeholder, disabled, submitText }: AmountFieldProps) => {
     return (
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-2 w-full'>
             <div className='flex flex-row w-full items-baseline gap-10'>
                 <Input
-                    className='w-[200px]'
+                    className='basis-[31%] shrink-0 border-white/50'
                     type='number'
                     value={model.Input.value || ''}
                     min={0}
@@ -52,7 +52,7 @@ const AmountField = observer(({ model, placeholder, disabled, submitText }: Amou
                 />
 
                 <Button
-                    className='w-[200px]'
+                    className='basis-[25%] shrink-0'
                     onClick={model.Submit}
                 >
                     {submitText || 'Submit'}
@@ -62,7 +62,7 @@ const AmountField = observer(({ model, placeholder, disabled, submitText }: Amou
                     <a
                         target='_blank'
                         href={getTransactionLink(model.TransactionId.value)}
-                        className='flex flex-row glow-hover-inner-img hover:underline text-accent-a1 gap-1'
+                        className='basis-[25%] flex flex-row glow-hover-inner-img hover:underline text-accent-a1 gap-1'
                     >
                         {shortenAddress(model.TransactionId.value)}
                         <img src={OutIconUrl} alt='Open in etherscan' className='inline w-4 self-start' />

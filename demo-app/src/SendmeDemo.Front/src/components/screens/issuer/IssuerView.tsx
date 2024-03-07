@@ -39,7 +39,7 @@ export const IssuerView = ({ className }: Props) => {
                     ))}
                 </TabsList>
                 {TabsData.map(({ value, Comp }) => (
-                    <TabsContent key={value} value={value}>
+                    <TabsContent key={value} value={value} className='mt-14'>
                         <Comp model={model} />
                     </TabsContent>
                 ))}
