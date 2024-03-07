@@ -10,7 +10,8 @@ public static class Erc20Endpoints
         app.MapPost("/api/cbdc/setLimit/", async (int limit) =>
             {
                 var erc20Service = app.Services.GetService<IERC20>();
-                await erc20Service.SetLimitAsync(configs.Issuer, limit);
+                string tx = await erc20Service.SetLimitAsync(configs.Issuer, limit);
+                return tx;
             })
             .WithName("SetLimit")
             .WithTags("CBDC")
@@ -21,7 +22,8 @@ public static class Erc20Endpoints
                 time = time == 0 ? 300 : time;
 
                 var erc20Service = app.Services.GetService<IERC20>();
-                await erc20Service.SetPeriodAsync(configs.Issuer, time);
+                string tx = await erc20Service.SetPeriodAsync(configs.Issuer, time);
+                return tx;
             }).WithName("SetPeriod")
             .WithTags("CBDC")
             .WithOpenApi();

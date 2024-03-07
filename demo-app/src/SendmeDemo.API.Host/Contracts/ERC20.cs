@@ -33,7 +33,7 @@ public class ERC20 : IERC20
         return (decimal)balance / (decimal) Math.Pow(10, 18);
     }
 
-    public async Task<string> TransferAsync(Wallet from, string to, decimal value)
+    public Task<string> TransferAsync(Wallet from, string to, decimal value)
     {
         var transactionMessage = new TransferFunction()
         {
@@ -41,30 +41,30 @@ public class ERC20 : IERC20
             To = to,
             Value = new BigInteger(value * (decimal) Math.Pow(10, 18)),
         };
-        return await SendRequestInternalAsync(transactionMessage, from);
+        return SendRequestInternalAsync(transactionMessage, from);
     }
 
-    public async Task SetPeriodAsync(Wallet wallet, int period)
+    public Task<string> SetPeriodAsync(Wallet wallet, int period)
     {
         var message = new SetPeriodFunction
         {
             Period = period
         };
 
-        await SendRequestInternalAsync(message, wallet);
+       return SendRequestInternalAsync(message, wallet);
     }
 
-    public async Task SetLimitAsync(Wallet wallet, int limit)
+    public Task<string> SetLimitAsync(Wallet wallet, int limit)
     {
         var message = new SetLimitFunction
         {
             Limit = limit * new BigInteger(Math.Pow(10, 18))
         };
 
-        await SendRequestInternalAsync(message, wallet);
+        return SendRequestInternalAsync(message, wallet);
     }
 
-    public async Task<string> MintAsync(Wallet issuer, string to, decimal value)
+    public Task<string> MintAsync(Wallet issuer, string to, decimal value)
     {
         var message = new MintFunction()
         {
@@ -72,17 +72,17 @@ public class ERC20 : IERC20
             To = to,
             Value = new BigInteger(value * (decimal) Math.Pow(10, 18)),
         };
-        return await SendRequestInternalAsync(message, issuer);
+        return SendRequestInternalAsync(message, issuer);
     }
 
-    public async Task<string> BurnAsync(Wallet issuer, decimal value)
+    public Task<string> BurnAsync(Wallet issuer, decimal value)
     {
         var message = new BurnFunction
         {
             FromAddress = issuer.PublicKey,
             Value = new BigInteger(value * (decimal) Math.Pow(10, 18)),
         };
-        return await SendRequestInternalAsync(message, issuer);
+        return SendRequestInternalAsync(message, issuer);
     }
 
     private async Task<string> SendRequestInternalAsync<T>(T message, Wallet from) where T : FunctionMessage, new()
