@@ -13,4 +13,5 @@ const getDynamicRoute = <P extends Path.BaseInput[]>(...inputs: P) => {
 export namespace AppRoutes {
     export const Users = getDynamicRoute('users', Path.build`${'name'}`);
     export const Issuer = Users({ name: IssuerName }) as '/users/Issuer';
+    export const Pay = getDynamicRoute('pay', Path.build`${'orderId'}`);
 }

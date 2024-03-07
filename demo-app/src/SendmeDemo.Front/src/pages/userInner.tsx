@@ -16,7 +16,7 @@ export const UserInner = observer(() => {
     const isIssuer = name === IssuerName;
 
     return (
-        <div className='relative w-full pt-16 px-16 container'>
+        <div className='relative w-full py-16 px-16 container flex flex-col'>
             <div className='w-full flex flex-row justify-between'>
                 <div className='flex flex-row'>
                     <h1 className='text-hh3 text-primary'>{name}</h1>
@@ -65,7 +65,7 @@ export const UserInner = observer(() => {
                 />
             </div>
             {isIssuer && (
-                <IssuerView className='mt-10' />
+                <IssuerView className='mt-20 pt-1' />
             )}
         </div>
     );
