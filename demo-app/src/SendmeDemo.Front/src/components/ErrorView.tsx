@@ -1,12 +1,23 @@
 import { Nullable } from '@zajno/common/types';
+import { cn } from './utils';
 
-export const ErrorView = ({ error }: { error: Nullable<string> }) => {
+type Props = {
+    error: Nullable<string>;
+    className?: string;
+};
+
+export const ErrorView = ({ error, className }: Props) => {
     if (!error) {
         return null;
     }
 
     return (
-        <div className='text-red-500 my-2 text-right text-small pr-1'>
+        <div
+            className={cn(
+                'text-red-500 my-2 text-right text-small pr-1',
+                className,
+            )}
+        >
             {error}
         </div>
     );

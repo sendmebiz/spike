@@ -19,3 +19,23 @@ export const CbdcBurn = ApiEndpoint.post<null, string>()
     .withPath('cbdc/burn')
     .withQuery<{ value: number }>('value');
 export type CbdcBurn = typeof CbdcBurn;
+
+export const SetLimit = ApiEndpoint.post<null, string>()
+    .withPath('cbdc/setLimit')
+    .withQuery<{ limit: number }>('limit');
+export type SetLimit = typeof SetLimit;
+
+export const SetPeriod = ApiEndpoint.post<null, string>()
+    .withPath('cbdc/setPeriod')
+    .withQuery<{ time: number }>('time');
+export type SetPeriod = typeof SetPeriod;
+
+export const KycMint = ApiEndpoint.post<null, string>()
+    .withPath('kyc/mint')
+    .withQuery<{ address: string }>('address');
+export type KycMint = typeof KycMint;
+
+export const KycBurn = ApiEndpoint.post<null, string>()
+    .withPath('kyc/burn')
+    .withQuery<{ tokenId: number }>('tokenId');
+export type KycBurn = typeof KycBurn;
