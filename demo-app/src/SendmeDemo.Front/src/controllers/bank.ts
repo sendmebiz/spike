@@ -8,6 +8,8 @@ enum ActionTypes {
     burn = 'burn',
     setLimit = 'setLimit',
     setPeriod = 'setPeriod',
+    kycMint = 'kycMint',
+    kycBurn = 'kycBurn',
 }
 
 export class BankController extends BaseController {
@@ -31,6 +33,14 @@ export class BankController extends BaseController {
     setPeriod = (value: number) => this.runAction(async () => {
         return await callApi(Apis.Bank.SetPeriod, { time: value }, { log: 'full' });
     }, ActionTypes.setPeriod);
+
+    kycMint = (name: string) => this.runAction(async () => {
+        return await callApi(Apis.Bank.KycMint, { address: name }, { log: 'full' });
+    }, ActionTypes.kycMint);
+
+    kycBurn = (tokenId: number) => this.runAction(async () => {
+        return await callApi(Apis.Bank.KycBurn, { tokenId }, { log: 'full' });
+    }, ActionTypes.kycBurn);
 
     protected onActionComplete(name?: string | undefined): void {
         if (!this.isInitialized || name === ActionTypes.setPeriod || name === ActionTypes.setLimit) {

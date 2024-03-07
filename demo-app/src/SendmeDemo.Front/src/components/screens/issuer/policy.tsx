@@ -1,11 +1,11 @@
 import { IssuerViewModel } from '@/viewModels/screens/Issuer';
-import { AmountField } from './cbdc';
 import { observer } from 'mobx-react-lite';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuTrigger } from '@/components/common/ui/dropdown-menu';
 import { Button } from '@/components/common/ui/button';
 import { Select } from '@zajno/common-mobx/viewModels';
 import { Granularity } from '@zajno/common/dates';
 import { cn } from '@/components/utils';
+import { AmountField } from '@/components/AmountForm';
 
 type Props = {
     model: IssuerViewModel;
