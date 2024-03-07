@@ -13,3 +13,7 @@ export function shortenAddress(address: Nullable<string>): Nullable<string> {
 
     return address.slice(0, 12) + '...' + address.slice(-10);
 }
+
+export function capitalize(value: string): string {
+    return value[0].toUpperCase() + value.slice(1);
+}

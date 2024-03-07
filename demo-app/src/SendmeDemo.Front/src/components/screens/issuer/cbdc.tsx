@@ -34,22 +34,29 @@ type AmountFieldProps = {
     placeholder?: string;
     disabled?: boolean;
     submitText?: string;
+    secondaryInput?: React.ReactNode;
 };
 
-const AmountField = observer(({ model, placeholder, disabled, submitText }: AmountFieldProps) => {
+export const AmountField = observer(({ model, placeholder, disabled, submitText, secondaryInput }: AmountFieldProps) => {
     return (
         <div className='flex flex-col gap-2 w-full'>
             <div className='flex flex-row w-full items-baseline gap-10'>
-                <Input
-                    className='basis-[31%] shrink-0 border-white/50'
-                    type='number'
-                    value={model.Input.value || ''}
-                    min={0}
-                    onChange={e => model.Input.setValue(e.currentTarget.value)}
-                    inputMode='numeric'
-                    placeholder={placeholder}
-                    disabled={disabled}
-                />
+                <div
+                    className='basis-[31%] shrink-0 flex flex-row flex-nowrap items-center'
+                >
+                    <Input
+                        className='grow border-white/50'
+                        type='number'
+                        value={model.Input.value || ''}
+                        min={0}
+                        onChange={e => model.Input.setValue(e.currentTarget.value)}
+                        inputMode='numeric'
+                        placeholder={placeholder}
+                        disabled={disabled}
+                    />
+
+                    {secondaryInput}
+                </div>
 
                 <Button
                     className='basis-[25%] shrink-0'
@@ -69,7 +76,10 @@ const AmountField = observer(({ model, placeholder, disabled, submitText }: Amou
                     </a>
                 )}
             </div>
-            <ErrorView error={model.Input.error || model.Error.value} />
+            <ErrorView
+                className='self-start'
+                error={model.Input.error || model.Error.value}
+            />
         </div>
     );
 });
