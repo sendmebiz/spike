@@ -3,9 +3,9 @@ using SendmeDemo.Configuration;
 
 namespace SendmeDemo.Endpoints;
 
-public static class Erc20Endpoints
+public static class CBDCEndpoints
 {
-    public static void InitErc20Endpoints(this WebApplication? app, Configs configs)
+    public static void InitCBDCEndpoints(this WebApplication? app, Configs configs)
     {
         app.MapPost("/api/cbdc/setLimit/", async (int limit) =>
             {

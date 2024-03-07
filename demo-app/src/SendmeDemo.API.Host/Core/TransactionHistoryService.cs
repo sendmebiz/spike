@@ -23,8 +23,13 @@ public class TransactionHistoryService : ITransactionHistoryService
         return result.ToList();
     }
 
-    public Task<IReadOnlyCollection<Transaction>> GetTokenTransactionsAsync(string contractAddress)
+    public async Task<IReadOnlyCollection<Transaction>> GetTokenTransactionsAsync(string contractAddress)
     {
-        throw new NotImplementedException();
+        var response = await _client.GetTokenTransactionsAsync(contractAddress, _settings.Token);
+        
+        var result = response.result.Select(t =>
+            new Transaction(t.hash, t.from, t.to, t.timeStamp, decimal.Parse(t.value) / (decimal) Math.Pow(10, 18)));
+        
+        return result.ToList();
     }
 }

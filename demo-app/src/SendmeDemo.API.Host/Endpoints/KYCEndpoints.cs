@@ -3,9 +3,9 @@ using SendmeDemo.Contracts;
 
 namespace SendmeDemo.Endpoints;
 
-public static class ERC721Endpoints
+public static class KYCEndpoints
 {
-    public static void InitErc721Endpoints(this WebApplication? app, Configs configs)
+    public static void InitKYCEndpoints(this WebApplication? app, Configs configs)
     {
         app.MapPost("/api/kyc/mint", async (string address) =>
             {

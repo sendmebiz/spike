@@ -49,8 +49,8 @@ app.UseMiddleware<ExceptionHandlingMiddleware>(
     new ExceptionHandlingMiddlewareOptions { DiagnosticsEnabled = false, TracingUrl = string.Empty });
 
 
-app.InitErc20Endpoints(configs);
-app.InitErc721Endpoints(configs);
+app.InitCBDCEndpoints(configs);
+app.InitKYCEndpoints(configs);
 app.InitSettingsEndpoints(configs);
 app.InitUserEndpoints(configs);
 app.InitTransactionsEndpoints(configs);

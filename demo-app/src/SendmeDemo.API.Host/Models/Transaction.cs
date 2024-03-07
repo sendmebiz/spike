@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace SendmeDemo;
 
 public class Transaction
@@ -20,4 +22,7 @@ public class Transaction
     public string To { get; set; }
     public long TimeStamp { get; set; }
     public decimal Value { get; set; }
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public TransactionType Type { get; set; }
 }
