@@ -6,6 +6,7 @@ import { IssuerName } from '@/constants/names';
 import { IssuerView } from '@/components/screens/issuer/IssuerView';
 import { formatCurrency } from '@/components/utils/format';
 import { getAddressLink } from '@/viewModels/screens/utils/links';
+import { WalletTransactions } from '@/components/screens/WalletTransactionsTable';
 
 import OutIconUrl from '@/assets/out-icon.svg?url';
 
@@ -55,7 +56,7 @@ export const UserInner = observer(() => {
                         )}
                         <Loader
                             className='w-full h-full absolute left-0 top-0 right-0 bottom-0 bg-black/80'
-                            visible={AppController.Instance.Users.isRefreshing}
+                            visible={AppController.Instance.Users.getIsRefreshing(name)}
                         />
                     </div>
                 ) : null}
@@ -64,8 +65,10 @@ export const UserInner = observer(() => {
                     visible={data?.busy || false}
                 />
             </div>
-            {isIssuer && (
+            {isIssuer ? (
                 <IssuerView className='mt-20 pt-1' />
+            ) : (
+                <WalletTransactions name={name} />
             )}
         </div>
     );

@@ -1,6 +1,6 @@
 import { IValueModelReadonly } from '@zajno/common/models/types';
 import { observer } from 'mobx-react-lite';
-import { twMerge } from './utils';
+import { twJoin, twMerge } from './utils';
 
 import '@/styles/loader.css';
 
@@ -8,9 +8,10 @@ type Props = {
     visible?: boolean | IValueModelReadonly<number> | IValueModelReadonly<boolean>;
     fullScreen?: boolean;
     className?: string;
+    loaderClassName?: string;
 };
 
-export const Loader = observer(({ visible, fullScreen, className }: Props) => {
+export const Loader = observer(({ visible, fullScreen, className, loaderClassName }: Props) => {
 
     const isVisible = visible === undefined
         ? true
@@ -29,7 +30,9 @@ export const Loader = observer(({ visible, fullScreen, className }: Props) => {
                 className,
             )}
         >
-            <div className="loader" />
+            <div
+                className={twJoin('loader', loaderClassName)}
+            />
         </div>
     );
 });
