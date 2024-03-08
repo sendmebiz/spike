@@ -1,5 +1,6 @@
 import { ApiEndpoint } from './_base';
 import { TransferRequest } from './dtos/bank';
+import { UserTransaction } from './dtos/users';
 
 export type { TransferRequest };
 
@@ -39,3 +40,6 @@ export const KycBurn = ApiEndpoint.post<null, string>()
     .withPath('kyc/burn')
     .withQuery<{ tokenId: number }>('tokenId');
 export type KycBurn = typeof KycBurn;
+
+export const GetTransactions = ApiEndpoint.get<UserTransaction[]>()
+    .withPath('cbdc/transactions');

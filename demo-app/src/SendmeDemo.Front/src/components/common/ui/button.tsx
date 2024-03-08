@@ -10,7 +10,7 @@ const buttonVariants = tv({
     + ' disabled:pointer-events-none disabled:opacity-50',
   variants: {
     variant: {
-      default: 'bg-accent-a1 text-primary hover:bg-accent-a2 disabled:bg-background-b2 disabled:border-border disabled:border-2',
+      default: 'bg-accent-a2 text-primary hover:bg-accent-a1 active:bg-accent-a2/50 disabled:bg-background-b2 disabled:border-border disabled:border-2',
       destructive:
         'bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90',
       outline:
