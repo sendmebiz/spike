@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Refit;
 using SendmeDemo;
 using SendmeDemo.Clients;
@@ -7,6 +8,7 @@ using SendmeDemo.Core;
 using SendmeDemo.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.Configure<Configs>(builder.Configuration);
 
 var configs = builder.Configuration.Get<Configs>();
@@ -48,12 +50,10 @@ app.UseCors(t =>
 app.UseMiddleware<ExceptionHandlingMiddleware>(
     new ExceptionHandlingMiddlewareOptions { DiagnosticsEnabled = false, TracingUrl = string.Empty });
 
-
 app.InitCBDCEndpoints(configs);
 app.InitKYCEndpoints(configs);
 app.InitSettingsEndpoints(configs);
 app.InitUserEndpoints(configs);
 app.InitTransactionsEndpoints(configs);
-
 
 app.Run();

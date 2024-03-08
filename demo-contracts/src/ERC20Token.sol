@@ -8,6 +8,8 @@ import {Ownable} from "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 contract ERC20Token is ERC20, Ownable {
     uint256 public periodDuration;
     uint256 public transferLimit;
+    bool public kycEnabled;
+    address private _owner;
     IERC721 public immutable ERC_721;
 
     mapping(address sender => mapping(uint256 period => uint256 transferredAmount)) public transfers;
@@ -15,10 +17,12 @@ contract ERC20Token is ERC20, Ownable {
     error TransferDenied();
     error TransferLimitExceeded();
 
-    constructor(address _erc721) ERC20("ERC20Token", "ERC20") Ownable(msg.sender) {
+    constructor(address _erc721) ERC20("CB_USD", "ERC20") Ownable(msg.sender) {
         ERC_721 = IERC721(_erc721);
         periodDuration = 3 minutes;
         transferLimit = 100e18;
+        kycEnabled = true;
+        _owner = msg.sender;
         _mint(msg.sender, 1_000_000_000e18);
     }
 
@@ -30,23 +34,36 @@ contract ERC20Token is ERC20, Ownable {
         transferLimit = limit;
     }
 
+    function setKyc(bool enabled) external onlyOwner {
+        kycEnabled = enabled;
+    }
+
+    function getPolicyState() external onlyOwner returns (uint256 periodDuration, uint256 transferLimit, bool kycEnabled) {
+        return (periodDuration, transferLimit, kycEnabled);
+    }
+
     function _update(address from, address to, uint256 value) internal override {
-        if (from != address(0)) {
-            uint256 fromErc721Balance = IERC721(ERC_721).balanceOf(from);
-            uint256 toErc721Balance = IERC721(ERC_721).balanceOf(to);
-            if (fromErc721Balance == 0 || toErc721Balance == 0) revert TransferDenied();
+        if (from != address(0) || from != _owner) {
 
-            uint256 currentPeriod;
-            unchecked { currentPeriod = block.timestamp / periodDuration * periodDuration; }
+            if(kycEnabled == true){
+                uint256 fromErc721Balance = IERC721(ERC_721).balanceOf(from);
+                uint256 toErc721Balance = IERC721(ERC_721).balanceOf(to);
+                if (fromErc721Balance == 0 || toErc721Balance == 0) revert TransferDenied();
+            }
 
-            uint256 transferredAmount = transfers[from][currentPeriod];
+            if (transferLimit != 0){
+                uint256 currentPeriod;
+                unchecked { currentPeriod = block.timestamp / periodDuration * periodDuration; }
 
-            uint256 newTransferredAmount;
-            unchecked { newTransferredAmount = transferredAmount + value; }
+                uint256 transferredAmount = transfers[from][currentPeriod];
 
-            if (newTransferredAmount > transferLimit) revert TransferLimitExceeded();
+                uint256 newTransferredAmount;
+                unchecked { newTransferredAmount = transferredAmount + value; }
 
-            transfers[from][currentPeriod] = newTransferredAmount;
+                if (newTransferredAmount > transferLimit) revert TransferLimitExceeded();
+
+                transfers[from][currentPeriod] = newTransferredAmount;
+            }
         }
 
         super._update(from, to, value);
