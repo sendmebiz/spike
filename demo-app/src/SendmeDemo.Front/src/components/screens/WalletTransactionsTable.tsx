@@ -3,18 +3,20 @@ import { AppController } from '@/controllers';
 import { observer } from 'mobx-react-lite';
 import { TransactionsTable } from './TransactionsTable';
 import { Loader } from '../Loader';
+import { twMerge } from '../utils';
 
 type WalletTransactionProps = {
     name?: string;
+    className?: string;
 };
 
-export const WalletTransactions = observer(({ name = IssuerName }: WalletTransactionProps) => {
+export const WalletTransactions = observer(({ name = IssuerName, className }: WalletTransactionProps) => {
     const transactions = AppController.Instance.Users.getTransactions(name);
     const isRefreshing = transactions?.busy || AppController.Instance.Users.getIsRefreshing(name);
 
     return (
         <div
-            className='mt-10 relative'
+            className={twMerge('relative', className)}
         >
             <TransactionsTable
                 items={transactions?.current?.slice() || []}
