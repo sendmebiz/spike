@@ -16,6 +16,16 @@ public static class CBDCEndpoints
             .WithName("SetLimit")
             .WithTags("CBDC")
             .WithOpenApi();
+        
+        app.MapPost("/api/cbdc/kyc-check/", async (bool enabled) =>
+            {
+                var erc20Service = app.Services.GetService<IERC20>();
+                string tx = await erc20Service.SetKycAsync(configs.Issuer, enabled);
+                return tx;
+            })
+            .WithName("EnableKycCheck")
+            .WithTags("CBDC")
+            .WithOpenApi();
 
         app.MapPost("/api/cbdc/setPeriod/", async (int time) =>
             {
@@ -108,6 +118,16 @@ public static class CBDCEndpoints
             
                 return balance.ToString();
             }).WithName("GetBalance")
+            .WithTags("CBDC")
+            .WithOpenApi();
+        
+        app.MapGet("/api/cbdc/policy-state/", async () =>
+            {
+                var erc20Service = app.Services.GetService<IERC20>();
+                PolicyState policyState = await erc20Service.GetPolicyState(configs.Issuer);
+            
+                return policyState;
+            }).WithName("GetPolicyState")
             .WithTags("CBDC")
             .WithOpenApi();
     }

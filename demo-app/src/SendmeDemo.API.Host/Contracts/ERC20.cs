@@ -1,10 +1,12 @@
 using Nethereum.Web3;
 using Nethereum.Contracts;
 using Nethereum.Contracts.Services;
+using Nethereum.Contracts.Standards.ERC20.ContractDefinition;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Util;
 using Nethereum.Web3.Accounts;
 using SendmeDemo;
+using SendmeDemo.Contracts.Dtos;
 using SendmeDemo.Contracts.Functions;
 using SendmeDemo.Core.Exceptions;
 using BigInteger = System.Numerics.BigInteger;
@@ -26,11 +28,35 @@ public class ERC20 : IERC20
         return (decimal)totalSupply / (decimal)Math.Pow(10, 18);
     }
 
+    public async Task<PolicyState> GetPolicyState(Wallet issuer)
+    {
+        var web3 = new Web3(_settings.ConnectionString);
+        var policyState = await web3.Eth.GetContractQueryHandler<PolicyStateFunction>()
+            .QueryDeserializingToObjectAsync<GetPolicyStateDto>(new PolicyStateFunction(), _settings.Address);
+
+        return new PolicyState
+        {
+            KycEnabled = policyState.KycEnabled,
+            Limit = (decimal)policyState.Limit / (decimal)Math.Pow(10, 18),
+            Period = (int)policyState.Period
+        };
+    }
+
     public async Task<decimal> GetBalanceAsync(string address)
     {
         var web3 = new Web3(_settings.ConnectionString);
         BigInteger balance = await web3.Eth.ERC20.GetContractService(_settings.Address).BalanceOfQueryAsync(address);
-        return (decimal)balance / (decimal) Math.Pow(10, 18);
+        return (decimal)balance / (decimal)Math.Pow(10, 18);
+    }
+
+    public Task<string> SetKycAsync(Wallet issuer, bool kycEnabled)
+    {
+        var message = new SetKycFunction
+        {
+            Enabled = kycEnabled
+        };
+
+        return SendRequestInternalAsync(message, issuer);
     }
 
     public Task<string> TransferAsync(Wallet from, string to, decimal value)
@@ -39,7 +65,7 @@ public class ERC20 : IERC20
         {
             FromAddress = from.PublicKey,
             To = to,
-            Value = new BigInteger(value * (decimal) Math.Pow(10, 18)),
+            Value = new BigInteger(value * (decimal)Math.Pow(10, 18)),
         };
         return SendRequestInternalAsync(transactionMessage, from);
     }
@@ -51,7 +77,7 @@ public class ERC20 : IERC20
             Period = period
         };
 
-       return SendRequestInternalAsync(message, wallet);
+        return SendRequestInternalAsync(message, wallet);
     }
 
     public Task<string> SetLimitAsync(Wallet wallet, int limit)
@@ -70,7 +96,7 @@ public class ERC20 : IERC20
         {
             FromAddress = issuer.PublicKey,
             To = to,
-            Value = new BigInteger(value * (decimal) Math.Pow(10, 18)),
+            Value = new BigInteger(value * (decimal)Math.Pow(10, 18)),
         };
         return SendRequestInternalAsync(message, issuer);
     }
@@ -80,7 +106,7 @@ public class ERC20 : IERC20
         var message = new BurnFunction
         {
             FromAddress = issuer.PublicKey,
-            Value = new BigInteger(value * (decimal) Math.Pow(10, 18)),
+            Value = new BigInteger(value * (decimal)Math.Pow(10, 18)),
         };
         return SendRequestInternalAsync(message, issuer);
     }
@@ -103,7 +129,7 @@ public class ERC20 : IERC20
 
         if (transaction.Status == new HexBigInteger(new BigInteger(0)))
         {
-            throw new SendmeCoreException($@"Transaction is failed: {transaction?.TransactionHash}");
+            throw new SendmeCoreException($"Transaction is failed: {transaction?.TransactionHash}");
         }
 
         return transaction.TransactionHash;
