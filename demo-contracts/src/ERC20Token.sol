@@ -18,12 +18,16 @@ contract ERC20Token is ERC20, Ownable {
     error TransferLimitExceeded();
 
     constructor(address _erc721) ERC20("CB_USD", "ERC20") Ownable(msg.sender) {
+        _owner = msg.sender;
         ERC_721 = IERC721(_erc721);
         periodDuration = 3 minutes;
         transferLimit = 100e18;
         kycEnabled = true;
-        _owner = msg.sender;
-        _mint(msg.sender, 1_000_000_000e18);
+        _mint(msg.sender, 1_000_000e18);
+    }
+
+    function getPolicyState() external view returns (uint256 period, uint256 limit, bool kyc) {
+        return (periodDuration, transferLimit, kycEnabled);
     }
 
     function setPeriod(uint256 period) external onlyOwner {
@@ -38,20 +42,23 @@ contract ERC20Token is ERC20, Ownable {
         kycEnabled = enabled;
     }
 
-    function getPolicyState() external onlyOwner returns (uint256 periodDuration, uint256 transferLimit, bool kycEnabled) {
-        return (periodDuration, transferLimit, kycEnabled);
+    function mint(address to, uint256 value) external onlyOwner {
+        _mint(to, value);
+    }
+
+    function burn(uint256 value) external onlyOwner {
+       _burn(_owner, value);
     }
 
     function _update(address from, address to, uint256 value) internal override {
-        if (from != address(0) || from != _owner) {
-
+        if (from != address(0) && from != _owner) {
             if(kycEnabled == true){
                 uint256 fromErc721Balance = IERC721(ERC_721).balanceOf(from);
                 uint256 toErc721Balance = IERC721(ERC_721).balanceOf(to);
                 if (fromErc721Balance == 0 || toErc721Balance == 0) revert TransferDenied();
             }
 
-            if (transferLimit != 0){
+            if (transferLimit != 0 ){
                 uint256 currentPeriod;
                 unchecked { currentPeriod = block.timestamp / periodDuration * periodDuration; }
 
