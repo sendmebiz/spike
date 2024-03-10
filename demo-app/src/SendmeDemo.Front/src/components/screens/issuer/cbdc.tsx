@@ -1,5 +1,5 @@
 import { IssuerViewModel } from '@/viewModels/screens/Issuer';
-import { AmountField } from '@/components/AmountForm';
+import { AmountField } from '@/components/fields/amount';
 
 type Props = {
     model: IssuerViewModel;

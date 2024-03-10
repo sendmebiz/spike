@@ -1,4 +1,4 @@
-import { useModel } from '@/components/hooks/useViewModel';
+import { useInitializeModel } from '@/components/hooks/useViewModel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../common/ui/tabs';
 import { cn } from '../../utils';
 import { IssuerViewModel } from '@/viewModels/screens/Issuer';
@@ -26,7 +26,7 @@ const TransactionTabsData: { value: string, title: string, Comp: React.Component
 
 export const IssuerView = ({ className }: Props) => {
 
-    const model = useModel(IssuerViewModel);
+    const model = useInitializeModel(IssuerViewModel);
 
     return (
         <div className={cn(
@@ -34,7 +34,7 @@ export const IssuerView = ({ className }: Props) => {
             className,
         )}>
             <Tabs
-                defaultValue={ActionTabsData[0].value}
+                defaultValue={ActionTabsData[1].value}
                 className='w-full'
             >
                 <TabsList

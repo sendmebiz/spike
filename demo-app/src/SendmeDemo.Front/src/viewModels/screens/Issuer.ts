@@ -2,12 +2,14 @@ import { capitalize } from '@/components/utils/format';
 import { IssuerName } from '@/constants/names';
 import { AppController } from '@/controllers';
 import { User } from '@/services/api/endpoints/dtos/users';
-import { Select, TextInputVM, ValidatableModel, ValueModel } from '@zajno/common-mobx/viewModels';
+import { Select, TextInputVM } from '@zajno/common-mobx/viewModels';
 import { Granularity } from '@zajno/common/dates';
-import { PromiseExtended } from '@zajno/common/structures/promiseExtended';
-import { Nullable } from '@zajno/common/types';
+import { Disposable } from '@zajno/common/functions/disposer';
 import { createThrowers } from '@zajno/common/validation/throwers';
+import { reaction, runInAction, transaction } from 'mobx';
 import * as Yup from 'yup';
+import { ValidatableFlagModel } from './utils/ValidatableFlagModel';
+import { createBlock } from '../common/blocks';
 
 const Validations = createThrowers({
     Amount: Yup.number()
@@ -22,7 +24,7 @@ const Validations = createThrowers({
     User: Yup.mixed().required('Please select user'),
 });
 
-export class IssuerViewModel {
+export class IssuerViewModel extends Disposable {
 
     public readonly Issue = createBlock(
         new TextInputVM().setValidationConfig(Validations.Amount),
@@ -38,6 +40,11 @@ export class IssuerViewModel {
     );
     public readonly SetPeriod = createPeriodBlock();
 
+    public readonly KycEnabled = createBlock(
+        new ValidatableFlagModel(),
+        v => AppController.Instance.Bank.setKycEnabled(v.flag.value),
+    );
+
     public readonly KycMint = createBlock(
         new Select<User>(
             () => AppController.Instance.Users.users.value?.filter(u => u.name !== IssuerName) || [],
@@ -51,41 +58,47 @@ export class IssuerViewModel {
         new TextInputVM().setValidationConfig(Validations.AmountInteger),
         v => AppController.Instance.Bank.kycBurn(+v.value!),
     );
-}
 
-export type ActionBlock<TInput extends ValidatableModel<any>> = Readonly<ReturnType<typeof createBlock<TInput>>>;
-export type BaseActionBlock = Pick<ActionBlock<any>, 'Error' | 'TransactionId' | 'Submit'> & {
-    Input: ValidatableModel<any>;
-};
+    initialize = () => {
+        this.disposer.add(
+            reaction(
+                () => AppController.Instance.Bank.policyState.value,
+                v => {
+                    if (!v) {
+                        return;
+                    }
 
-function createBlock<
-    TInput extends ValidatableModel<any>,
->(
-    Input: TInput,
-    submit: (value: TInput) => PromiseExtended<void | string>,
-) {
-    const Error = new ValueModel<string | null>(null);
-    const TransactionId = new ValueModel<Nullable<string>>(null);
+                    transaction(() => {
+                        this.SetLimit.Input.value = v.limit.toString();
+                        this.SetPeriod.Period.selectedItem = 'second';
+                        this.SetPeriod.Input.value = v.period.toString();
+                        this.KycEnabled.Input.flag.setValue(!!v.kycEnabled);
+                    });
+                },
+                { fireImmediately: true },
+            )
+        );
 
-    const Submit = async () => {
-        Error.reset();
-        TransactionId.reset();
+        this.disposer.add(
+            reaction(
+                () => this.SetPeriod.Period.selectedItem,
+                (gran, prev) => {
+                    if (!gran || !prev) {
+                        return;
+                    }
 
-        Input.validateOnChange(true);
+                    const val = +this.SetPeriod.Input.value!;
+                    if (!val) {
+                        return;
+                    }
 
-        if (!(await Input.validate())) {
-            return;
-        }
-
-        await submit(Input)
-            .onError(e => { Error.value = e.error; })
-            .onSuccess(result => {
-                TransactionId.value = result || null;
-                Input.reset();
-            });
+                    runInAction(() => {
+                        this.SetPeriod.Input.value = Granularity.Constant.convert(val, prev, gran).toString();
+                    });
+                },
+            )
+        );
     };
-
-    return { Error, Input, TransactionId, Submit };
 }
 
 function createPeriodBlock() {

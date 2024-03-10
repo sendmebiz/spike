@@ -13,9 +13,11 @@ export class BankController extends BaseController {
 
     private readonly _cbdcTransactions = new LazyPromiseObservable(() => callApi(Apis.Bank.GetTransactions, null));
     private readonly _isRefreshing = new FlagModel();
+    private readonly _policyState = new LazyPromiseObservable(() => callApi(Apis.Bank.GetPolicyState, null));
 
     public get transactions(): ILazyPromise<UserTransaction[]> { return this._cbdcTransactions; }
     public get isRefreshing() { return this._isRefreshing.value; }
+    public get policyState() { return this._policyState; }
 
     protected onInitialize(): void | Promise<void> {
         this.disposer.add(WalletChanged.on(data => this.refreshTransactions(data?.action)));
@@ -41,12 +43,22 @@ export class BankController extends BaseController {
     }, WalletActionTypes.burn);
 
     setLimit = (value: number) => this.runAction(async () => {
-        return await callApi(Apis.Bank.SetLimit, { limit: value }, { log: 'full' });
+        const res = await callApi(Apis.Bank.SetLimit, { limit: value }, { log: 'full' });
+        this._policyState.reset();
+        return res;
     }, 'setLimit');
 
     setPeriod = (value: number) => this.runAction(async () => {
-        return await callApi(Apis.Bank.SetPeriod, { time: value }, { log: 'full' });
+        const result = await callApi(Apis.Bank.SetPeriod, { time: value }, { log: 'full' });
+        this._policyState.reset();
+        return result;
     }, 'setPeriod');
+
+    setKycEnabled = (value: boolean) => this.runAction(async () => {
+        const result = await callApi(Apis.Bank.SetKycCheckEnabled, { enabled: !!value }, { log: 'full' });
+        this._policyState.reset();
+        return result;
+    }, 'setKycEnabled');
 
     kycMint = (name: string) => this.runAction(async () => {
         const result = await callApi(Apis.Bank.KycMint, { address: name }, { log: 'full' });

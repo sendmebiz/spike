@@ -1,4 +1,5 @@
-import { AmountField, SelectUserForm } from '@/components/AmountForm';
+import { AmountField } from '@/components/fields/amount';
+import { SelectUserForm } from '@/components/fields/selectUser';
 import { IssuerViewModel } from '@/viewModels/screens/Issuer';
 
 type Props = {
