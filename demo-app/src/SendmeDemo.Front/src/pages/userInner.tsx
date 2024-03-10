@@ -68,7 +68,10 @@ export const UserInner = observer(() => {
             {isIssuer ? (
                 <IssuerView className='mt-20 pt-1' />
             ) : (
-                <WalletTransactions name={name} />
+                <WalletTransactions
+                    className='mt-20'
+                    name={name}
+                />
             )}
         </div>
     );

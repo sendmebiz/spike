@@ -2,16 +2,21 @@ import { AppController } from '@/controllers';
 import { observer } from 'mobx-react-lite';
 import { TransactionsTable } from '../TransactionsTable';
 import { Loader } from '@/components/Loader';
+import { twMerge } from '@/components/utils';
 
 export { WalletTransactions } from '../WalletTransactionsTable';
 
-export const CBDCTransactions = observer(() => {
+type Props = {
+    className?: string;
+};
+
+export const CBDCTransactions = observer(({ className }: Props) => {
     const transactions = AppController.Instance.Bank.transactions.value;
     const isRefreshing = AppController.Instance.Bank.isRefreshing;
 
     return (
         <div
-            className='mt-10 relative'
+            className={twMerge('relative', className)}
         >
             <TransactionsTable
                 items={transactions?.slice() || []}

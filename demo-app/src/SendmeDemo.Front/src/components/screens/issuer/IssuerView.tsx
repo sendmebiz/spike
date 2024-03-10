@@ -45,7 +45,7 @@ export const IssuerView = ({ className }: Props) => {
                     ))}
                 </TabsList>
                 {ActionTabsData.map(({ value, Comp }) => (
-                    <TabsContent key={value} value={value} className='mt-14'>
+                    <TabsContent key={value} value={value} className='mt-3'>
                         <Comp model={model} />
                     </TabsContent>
                 ))}
@@ -63,7 +63,7 @@ export const IssuerView = ({ className }: Props) => {
                     ))}
                 </TabsList>
                 {TransactionTabsData.map(({ value, Comp }) => (
-                    <TabsContent key={value} value={value} className='mt-14'>
+                    <TabsContent key={value} value={value} className='mt-3'>
                         <Comp />
                     </TabsContent>
                 ))}

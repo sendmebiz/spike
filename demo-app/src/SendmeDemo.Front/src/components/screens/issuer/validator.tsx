@@ -8,7 +8,7 @@ type Props = {
 export const ValidatorInputs = ({ model }: Props) => {
 
     return (
-        <div className='flex flex-col gap-4 mt-6 items-start p-6 background-gradient rounded-lg'>
+        <div className='flex flex-col gap-4 items-start p-6 background-gradient rounded-lg'>
             <SelectUserForm
                 model={model.KycMint}
                 submitText='Issue'
