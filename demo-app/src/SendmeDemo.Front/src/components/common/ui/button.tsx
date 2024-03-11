@@ -19,6 +19,7 @@ const buttonVariants = tv({
         'bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80',
       ghost: 'hover:bg-slate-100 hover:text-slate-900',
       link: 'text-paragraphs underline-offset-4 hover:underline hover:text-primary dark:text-slate-50',
+      switcher: 'bg-accent-a2 text-primary hover:bg-accent-a1 active:bg-accent-a2/50 disabled:bg-primary disabled:border-none disabled:text-black disabled:opacity-100',
     },
     size: {
       default: 'h-10 px-10 py-6',
