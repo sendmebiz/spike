@@ -34,7 +34,7 @@ export const IssuerView = ({ className }: Props) => {
             className,
         )}>
             <Tabs
-                defaultValue={ActionTabsData[1].value}
+                defaultValue={ActionTabsData[0].value}
                 className='w-full'
             >
                 <TabsList
