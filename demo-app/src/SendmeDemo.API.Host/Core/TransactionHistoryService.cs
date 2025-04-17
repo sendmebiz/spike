@@ -5,9 +5,9 @@ namespace SendmeDemo.Core;
 public class TransactionHistoryService : ITransactionHistoryService
 {
     private readonly IEtherscanClient _client;
-    private readonly ISettings _settings;
+    private readonly Settings _settings;
 
-    public TransactionHistoryService(IEtherscanClient client, ISettings settings)
+    public TransactionHistoryService(IEtherscanClient client, Settings settings)
     {
         _client = client;
         _settings = settings;

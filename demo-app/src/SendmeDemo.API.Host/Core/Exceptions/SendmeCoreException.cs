@@ -1,4 +1,4 @@
-using Securrency.LiquidityEngine.API.Host.ExceptionHandling;
+using SendmeDemo.Configuration;
 
 namespace SendmeDemo.Core.Exceptions;
 

@@ -17,13 +17,13 @@ contract ERC20Token is ERC20, Ownable {
     error TransferDenied();
     error TransferLimitExceeded();
 
-    constructor(address _erc721) ERC20("CB_USD", "ERC20") Ownable(msg.sender) {
+    constructor(address _erc721) ERC20("CBD_USD", "CBD_USD") Ownable(msg.sender) {
         _owner = msg.sender;
         ERC_721 = IERC721(_erc721);
         periodDuration = 3 minutes;
-        transferLimit = 100e18;
-        kycEnabled = true;
-        _mint(msg.sender, 1_000_000e18);
+        transferLimit = 1000000e18;
+        kycEnabled = false;
+        //_mint(msg.sender, 1_000_000e18);
     }
 
     function getPolicyState() external view returns (uint256 period, uint256 limit, bool kyc) {

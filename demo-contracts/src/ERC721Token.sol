@@ -8,7 +8,7 @@ import {Ownable} from "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 contract ERC721Token is ERC721, Ownable {
     uint256 public idCounter = 1;
 
-    constructor() ERC721("KYC", "ERC721") Ownable(msg.sender) {}
+    constructor() ERC721("KYC", "KYC_PROPERTY") Ownable(msg.sender) {}
 
     function mint(address to) external onlyOwner {
         _mint(to, idCounter);

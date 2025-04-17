@@ -3,6 +3,7 @@ using Nethereum.Contracts;
 using Nethereum.Contracts.Services;
 using Nethereum.Contracts.Standards.ERC20.ContractDefinition;
 using Nethereum.Hex.HexTypes;
+using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Util;
 using Nethereum.Web3.Accounts;
 using SendmeDemo;
@@ -116,15 +117,24 @@ public class ERC20 : IERC20
         const int chain = 421614;
         var web3 = new Web3(new Account(from.PrivateKey, chain), _settings.ConnectionString);
 
-        var gasLimit = new HexBigInteger(500000); // Adjust as needed
-        var gasPrice = new HexBigInteger(Web3.Convert.ToWei(10, UnitConversion.EthUnit.Gwei)); // Adjust as needed
+        var gasEstimationHandler = web3.Eth.GetContractTransactionHandler<T>();
+        var gasEstimate = await gasEstimationHandler.EstimateGasAsync(_settings.Address, message);
+        var gasLimit = new HexBigInteger(gasEstimate.Value + (gasEstimate.Value / 10)); // 10% buffer
 
-        message.GasPrice = gasPrice;
+        var latestBlock = await web3.Eth.Blocks.GetBlockWithTransactionsHashesByNumber.SendRequestAsync(BlockParameter.CreateLatest());
+        
+        var maxPriorityFeePerGas = new HexBigInteger(Web3.Convert.ToWei(25, UnitConversion.EthUnit.Gwei)); // minimum 25 gwei as per error message
+        
+        var baseFee = latestBlock.BaseFeePerGas ?? new HexBigInteger(Web3.Convert.ToWei(1, UnitConversion.EthUnit.Gwei));
+        var maxFeePerGas = new HexBigInteger(baseFee.Value + (maxPriorityFeePerGas.Value * 2)); // 2x priority fee for buffer
+        
+        message.MaxPriorityFeePerGas = maxPriorityFeePerGas;
+        message.MaxFeePerGas = maxFeePerGas;
         message.Gas = gasLimit;
 
         var transferHandler = web3.Eth.GetContractTransactionHandler<T>();
-
-        var transaction =
+        
+        TransactionReceipt? transaction =
             await transferHandler.SendRequestAndWaitForReceiptAsync(_settings.Address, message);
 
         if (transaction.Status == new HexBigInteger(new BigInteger(0)))

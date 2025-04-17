@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Refit;
 using SendmeDemo;
 using SendmeDemo.Clients;
@@ -13,7 +12,7 @@ builder.Services.Configure<Configs>(builder.Configuration);
 
 var configs = builder.Configuration.Get<Configs>();
 
-builder.Services.AddTransient<ISettings, Settings>(_ => configs.Settings);
+builder.Services.AddSingleton(configs.Settings);
 builder.Services.AddTransient<IERC20, ERC20>(_ => new ERC20(configs.ERC20));
 builder.Services.AddTransient<IERC721, ERC721>(_ => new ERC721(configs.ERC721));
 builder.Services.AddTransient<IUserService, UserService>();
@@ -21,7 +20,7 @@ builder.Services.AddTransient<ITransactionHistoryService, TransactionHistoryServ
 builder.Services.AddRefitClient<IEtherscanClient>()
     .ConfigureHttpClient(c =>
     {
-        c.BaseAddress = new Uri(configs.Settings.Etherscan);
+        c.BaseAddress = new Uri(configs.Settings.EtherscanApi);
     });
 
 // Add services to the container.

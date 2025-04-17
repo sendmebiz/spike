@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Net.Mime;
 using Microsoft;
 using Newtonsoft.Json;
-using Securrency.LiquidityEngine.API.Host.ExceptionHandling;
 using SendmeDemo.Core.Exceptions;
 
 namespace SendmeDemo.Configuration

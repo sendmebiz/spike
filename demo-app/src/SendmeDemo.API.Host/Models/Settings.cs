@@ -2,15 +2,10 @@ using Newtonsoft.Json;
 
 namespace SendmeDemo;
 
-public interface ISettings
-{
-    string Etherscan { get; set; }
-    string Token { get; set; }
-}
-
-public class Settings : ISettings
+public class Settings
 {
     public string Etherscan { get; set; }
+    public string EtherscanApi { get; set; }
     [JsonIgnore]
     public string Token { get; set; }
 }

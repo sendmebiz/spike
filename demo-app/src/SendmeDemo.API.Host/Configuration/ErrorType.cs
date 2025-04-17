@@ -1,4 +1,4 @@
-namespace Securrency.LiquidityEngine.API.Host.ExceptionHandling;
+namespace SendmeDemo.Configuration;
 
 public enum ErrorType
 {
